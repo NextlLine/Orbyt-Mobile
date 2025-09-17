@@ -1,4 +1,3 @@
-import type { PropsWithChildren, ReactElement } from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, {
   interpolate,
@@ -6,27 +5,30 @@ import Animated, {
   useAnimatedStyle,
   useScrollOffset,
 } from 'react-native-reanimated';
-
+import { Image } from 'expo-image';
 import { ThemedView } from '@/components/themed-view';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { ThemedText } from './themed-text';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React, { PropsWithChildren } from 'react';
 
 const HEADER_HEIGHT = 250;
 
 type Props = PropsWithChildren<{
-  headerImage: ReactElement;
   headerBackgroundColor: { dark: string; light: string };
 }>;
 
 export default function ParallaxScrollView({
   children,
-  headerImage,
   headerBackgroundColor,
 }: Props) {
   const backgroundColor = useThemeColor({}, 'background');
   const colorScheme = useColorScheme() ?? 'light';
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollOffset(scrollRef);
+  const insets = useSafeAreaInsets();
+
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -38,7 +40,11 @@ export default function ParallaxScrollView({
           ),
         },
         {
-          scale: interpolate(scrollOffset.value, [-HEADER_HEIGHT, 0, HEADER_HEIGHT], [2, 1, 1]),
+          scale: interpolate(
+            scrollOffset.value,
+            [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
+            [2, 1, 1]
+          ),
         },
       ],
     };
@@ -55,20 +61,39 @@ export default function ParallaxScrollView({
           { backgroundColor: headerBackgroundColor[colorScheme] },
           headerAnimatedStyle,
         ]}>
-        {headerImage}
+        <Image
+          source={require('@/assets/images/icon.png')}
+          style={[
+            styles.reactLogo,
+            { marginTop: insets.top },
+          ]}
+        />
+        <ThemedText style={styles.textHeader}>Orbyt</ThemedText>
       </Animated.View>
-      <ThemedView style={styles.content}>{children}</ThemedView>
+      <ThemedView style={styles.content}>
+        {children}
+      </ThemedView>
     </Animated.ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   header: {
     height: HEADER_HEIGHT,
     overflow: 'hidden',
+    alignItems: 'center',
+  },
+  reactLogo: {
+    width: 80,
+    aspectRatio: 1,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+  },
+  textHeader: {
+    color: '#ffffffff',
+    fontSize: 20, 
+    fontWeight: '600',
+    marginTop: 8, 
   },
   content: {
     flex: 1,
@@ -77,3 +102,4 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
 });
+
