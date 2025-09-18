@@ -5,6 +5,7 @@ import { ThemedView } from '@/components/themed-view';
 import BasicChart from '@/components/home/graphComponent';
 import React, { useState } from 'react';
 import WalletsInfo from '@/components/home/wallet_show_component';
+import { useOrbytColor } from '@/assets/colors/defaultColors';
 
 const { width } = Dimensions.get('window');
 
@@ -38,7 +39,7 @@ export default function HomeScreen() {
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#043FFF', dark: '#080053ff' }}
+      headerBackgroundColor= {{ color: useOrbytColor('main')}}
     >
       <ThemedView style={styles.container}>
         <WalletsInfo
@@ -47,7 +48,6 @@ export default function HomeScreen() {
           onChangeWallet={(i) => setIndex(i)}
         />
       </ThemedView>
-
     </ParallaxScrollView>
   );
 }

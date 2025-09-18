@@ -6,13 +6,13 @@ import { Wallet } from '@/app/(tabs)/home';
 import { CustomButton } from '../custom_button_component';
 import { CustomSelect } from '../select_picker_component';
 
-type Props = {
+type WalletsInfoProps = {
   wallets: Wallet[];
   index: number;
   onChangeWallet: (i: number) => void;
 };
 
-export default function WalletsInfo({ wallets, index, onChangeWallet }: Props) {
+export default function WalletsInfo({ wallets, index, onChangeWallet }: WalletsInfoProps) {
   return (
     <CustomSelect data={wallets} onSelect={onChangeWallet}>
       <ThemedView style={styles.container}>

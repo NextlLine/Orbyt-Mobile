@@ -13,13 +13,14 @@ import { ThemedText } from './themed-text';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import React, { PropsWithChildren } from 'react';
 import { opacity } from 'react-native-reanimated/lib/typescript/Colors';
+import { useOrbytColor } from '@/assets/colors/defaultColors';
 
 export const SCREEN_SIZE = Dimensions.get('window');
 const IMAGE_SIZE = SCREEN_SIZE.height * 0.15;
 const HEADER_HEIGHT = IMAGE_SIZE * 1.2;
 
 type Props = PropsWithChildren<{
-  headerBackgroundColor: { dark: string; light: string };
+  headerBackgroundColor: { color: string };
 }>;
 
 export default function ParallaxScrollView({
@@ -27,12 +28,7 @@ export default function ParallaxScrollView({
   headerBackgroundColor,
 }: Props) {
 
-  const colorScheme = useColorScheme() ?? 'light';
-  const backgroundColor = colorScheme === 'light' ? '#F3F4F7' : '#383838ff';
-  const iconSource = colorScheme === 'light'
-    ? require('@/assets/images/whiteIcon.png')
-    : require('@/assets/images/icon.png');
-
+  const iconSource = require('@/assets/images/whiteIcon.png')
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollOffset(scrollRef);
   const insets = useSafeAreaInsets();
@@ -60,13 +56,13 @@ export default function ParallaxScrollView({
   return (
     <Animated.ScrollView
       ref={scrollRef}
-      style={{ backgroundColor, flex: 1 }}
+      style={{ backgroundColor: useOrbytColor('background'), flex: 1 }}
       scrollEventThrottle={10}>
       <Animated.View
         style={[
           styles.header,
           {
-            backgroundColor: headerBackgroundColor[colorScheme],
+            backgroundColor: headerBackgroundColor.color,
           },
           headerAnimatedStyle,
         ]}>
@@ -83,7 +79,7 @@ export default function ParallaxScrollView({
       <ThemedView style={[
         styles.content,
         {
-          backgroundColor: backgroundColor,
+          backgroundColor: useOrbytColor('background'),
         }
       ]}>
         {children}
@@ -102,6 +98,7 @@ const styles = StyleSheet.create({
   objectInsideHeader: {
     width: IMAGE_SIZE,
     aspectRatio: 1,
+    // tintColor: "red" 
   },
   content: {
     flex: 1,

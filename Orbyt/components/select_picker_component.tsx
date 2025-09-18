@@ -1,5 +1,4 @@
-// select_picker_component.tsx
-import React from "react";
+import React, { useState } from "react";
 import {
   TouchableOpacity,
   Text,
@@ -12,6 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SCREEN_SIZE } from "./parallax-scroll-view";
 import { Wallet } from "@/app/(tabs)/home";
+import { useOrbytColor } from "@/assets/colors/defaultColors";
 
 interface CustomSelectProps {
   style?: ViewStyle;
@@ -20,32 +20,21 @@ interface CustomSelectProps {
   onSelect: (i: number) => void;
 }
 
-interface CustomSelectState {
-  visible: boolean;
-}
+export function CustomSelect({ children, data, onSelect }: CustomSelectProps) {
+  const [visible, setVisible] = useState(false);
+  const backgroundColor = useOrbytColor("background");
 
-export class CustomSelect extends React.Component<
-  CustomSelectProps,
-  CustomSelectState
-> {
-  constructor(props: CustomSelectProps) {
-    super(props);
-    this.state = { visible: false };
-  }
+  const toggleModal = () => setVisible((prev) => !prev);
 
-  toggleModal = () => {
-    this.setState((prev) => ({ visible: !prev.visible }));
+  const handleSelect = (index: number) => {
+    onSelect(index);
+    toggleModal();
   };
 
-  handleSelect = (index: number) => {
-    this.props.onSelect(index);
-    this.toggleModal();
-  };
-
-  renderOption = ({ item, index }: { item: Wallet; index: number }) => (
+  const renderOption = ({ item, index }: { item: Wallet; index: number }) => (
     <TouchableOpacity
       style={styles.optionButton}
-      onPress={() => this.handleSelect(index)}
+      onPress={() => handleSelect(index)}
     >
       <Text style={styles.optionText}>
         {item.name} — {item.currency.font} {item.value.toFixed(2)}
@@ -53,48 +42,38 @@ export class CustomSelect extends React.Component<
     </TouchableOpacity>
   );
 
-  render() {
-    const { children, data } = this.props;
-    const { visible } = this.state;
+  return (
+    <>
+      <TouchableOpacity onPress={toggleModal}>
+        {children || <Text style={styles.buttonText}>Select ▼</Text>}
+      </TouchableOpacity>
 
-    return (
-      <>
-        <TouchableOpacity onPress={this.toggleModal}>
-          {children || <Text style={styles.buttonText}>Select ▼</Text>}
-        </TouchableOpacity>
+      <Modal visible={visible} animationType="fade" transparent>
+        <View style={styles.modalOverlay}>
+          <SafeAreaView>
+            <View style={[styles.modalContent, { backgroundColor }]}>
+              <Text style={styles.modalTitle}>Choose the wallet</Text>
 
-        <Modal visible={visible} animationType="fade" transparent>
-          <View style={styles.modalOverlay}>
-            <SafeAreaView>
-              <View style={styles.modalContent}>
-                <Text style={styles.modalTitle}>Choose the wallet</Text>
+              <FlatList
+                data={data}
+                keyExtractor={(_, index) => String(index)}
+                renderItem={renderOption}
+                style={{ width: "100%" }}
+              />
 
-                <FlatList
-                  data={data}
-                  keyExtractor={(_, index) => String(index)}
-                  renderItem={this.renderOption}
-                  style={{ width: "100%" }}
-                />
-
-                <TouchableOpacity
-                  style={styles.cancelButton}
-                  onPress={this.toggleModal}
-                >
-                  <Text style={styles.closeButton}>Cancel</Text>
-                </TouchableOpacity>
-              </View>
-            </SafeAreaView>
-          </View>
-        </Modal>
-      </>
-    );
-  }
+              <TouchableOpacity style={styles.cancelButton} onPress={toggleModal}>
+                <Text style={styles.closeButton}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </SafeAreaView>
+        </View>
+      </Modal>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
-  buttonText: {
-    fontWeight: "600",
-  },
+  buttonText: { fontWeight: "600" },
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -105,23 +84,17 @@ const styles = StyleSheet.create({
     width: SCREEN_SIZE.width * 0.9,
     maxHeight: SCREEN_SIZE.height * 0.6,
     padding: 20,
-    backgroundColor: "#fff",
     borderRadius: 8,
     alignItems: "center",
   },
-  modalTitle: {
-    fontSize: 18,
-    marginBottom: 20,
-  },
+  modalTitle: { fontSize: 18, marginBottom: 20 },
   optionButton: {
     paddingVertical: 12,
     paddingHorizontal: 8,
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
   },
-  optionText: {
-    fontSize: 16,
-  },
+  optionText: { fontSize: 16 },
   cancelButton: {
     marginTop: 10,
     width: "100%",
@@ -130,8 +103,5 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: "#dfdfdf",
   },
-  closeButton: {
-    color: "black",
-    fontWeight: "600",
-  },
+  closeButton: { color: "black", fontWeight: "600" },
 });
