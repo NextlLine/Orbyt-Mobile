@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedRef,
@@ -12,8 +12,11 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import { ThemedText } from './themed-text';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import React, { PropsWithChildren } from 'react';
+import { opacity } from 'react-native-reanimated/lib/typescript/Colors';
 
-const HEADER_HEIGHT = 250;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
+const IMAGE_SIZE = SCREEN_HEIGHT * 0.15;
+const HEADER_HEIGHT = IMAGE_SIZE * 1.2;
 
 type Props = PropsWithChildren<{
   headerBackgroundColor: { dark: string; light: string };
@@ -23,12 +26,16 @@ export default function ParallaxScrollView({
   children,
   headerBackgroundColor,
 }: Props) {
-  const backgroundColor = useThemeColor({}, 'background');
+
   const colorScheme = useColorScheme() ?? 'light';
+  const backgroundColor = colorScheme === 'light' ? '#F3F4F7' : '#383838ff';
+  const iconSource = colorScheme === 'light'
+    ? require('@/assets/images/whiteIcon.png')
+    : require('@/assets/images/icon.png');
+
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollOffset(scrollRef);
   const insets = useSafeAreaInsets();
-
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -54,23 +61,31 @@ export default function ParallaxScrollView({
     <Animated.ScrollView
       ref={scrollRef}
       style={{ backgroundColor, flex: 1 }}
-      scrollEventThrottle={16}>
+      scrollEventThrottle={10}>
       <Animated.View
         style={[
           styles.header,
-          { backgroundColor: headerBackgroundColor[colorScheme] },
+          {
+            backgroundColor: headerBackgroundColor[colorScheme],
+          },
           headerAnimatedStyle,
         ]}>
         <Image
-          source={require('@/assets/images/icon.png')}
+          source={iconSource}
           style={[
-            styles.reactLogo,
-            { marginTop: insets.top },
+            styles.objectInsideHeader,
+            {
+              marginTop: insets.top
+            },
           ]}
         />
-        <ThemedText style={styles.textHeader}>Orbyt</ThemedText>
       </Animated.View>
-      <ThemedView style={styles.content}>
+      <ThemedView style={[
+        styles.content,
+        {
+          backgroundColor: backgroundColor,
+        }
+      ]}>
         {children}
       </ThemedView>
     </Animated.ScrollView>
@@ -82,22 +97,15 @@ const styles = StyleSheet.create({
     height: HEADER_HEIGHT,
     overflow: 'hidden',
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  reactLogo: {
-    width: 80,
+  objectInsideHeader: {
+    width: IMAGE_SIZE,
     aspectRatio: 1,
-    resizeMode: 'contain',
-    alignSelf: 'center',
-  },
-  textHeader: {
-    color: '#ffffffff',
-    fontSize: 20, 
-    fontWeight: '600',
-    marginTop: 8, 
   },
   content: {
     flex: 1,
-    padding: 32,
+    padding: 10,
     gap: 16,
     overflow: 'hidden',
   },

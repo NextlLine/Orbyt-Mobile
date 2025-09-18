@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@react-native-picker/picker": "2.11.1",
+    "expo": "^54.0.8",
+    "lucide": "^0.544.0"
+  }
+}

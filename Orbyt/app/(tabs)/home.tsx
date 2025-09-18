@@ -1,47 +1,70 @@
+// HomeScreen.tsx
 import { Dimensions, StyleSheet } from 'react-native';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BasicChart from '@/components/home/graphComponent';
-import React from 'react';
+import React, { useState } from 'react';
+import WalletsInfo from '@/components/home/wallet_show_component';
 
 const { width } = Dimensions.get('window');
 
+export type Wallet = {
+  name: string;
+  value: number;
+  currency: { id: string; font: string };
+};
+type User = {
+  name: string,
+  wallets: Wallet[]
+}
+
+
 export default function HomeScreen() {
-  const user = { name: "Jairo" };
+const [index, setIndex] = useState(0);
+const user:User = {
+  name: "Jairo",
+  wallets: [
+    {
+      name: "Rumo aos 10k",
+      value: 10569.3,
+      currency: { id: "Brl", font: 'R$' },
+    },
+    {
+      name: "Cofrinho",
+      value: 432.12,
+      currency: { id: "Brl", font: 'R$' },
+    }
+  ],
+};
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#043fffff', dark: '#080053ff' }}
+      headerBackgroundColor={{ light: '#043FFF', dark: '#080053ff' }}
     >
-
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Hello, {user.name} </ThemedText>
+      <ThemedView style={styles.container}>
+        <WalletsInfo
+  wallets={user.wallets}
+  index={index}
+  onChangeWallet={(i) => setIndex(i)}
+/>
       </ThemedView>
 
-      <ThemedView style={styles.chartContainer}>
-        <ThemedText type="subtitle">Visão geral</ThemedText>
-        <BasicChart />
-      </ThemedView>
     </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  container: {
+    flex: 0,
+    padding: 8,
     gap: 8,
+    borderRadius: 5, 
+    backgroundColor: 'rgba(255, 255, 255, 1)', 
   },
   reactLogo: {
     width: width * 0.3,
     aspectRatio: 1,
     resizeMode: 'contain',
     alignSelf: 'center',
-  },
-  chartContainer: {
-    marginTop: 20,
-    alignItems: 'center',
   },
 });
