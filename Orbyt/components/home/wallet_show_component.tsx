@@ -1,11 +1,10 @@
-// graphComponent.tsx
 import React from 'react';
 import { Alert, Button, GestureResponderEvent, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import { ThemedView } from '../themed-view';
 import { ThemedText } from '../themed-text';
 import { Wallet } from '@/app/(tabs)/home';
 import { CustomButton } from '../custom_button_component';
+import { CustomSelect } from '../select_picker_component';
 
 type Props = {
   wallets: Wallet[];
@@ -15,17 +14,18 @@ type Props = {
 
 export default function WalletsInfo({ wallets, index, onChangeWallet }: Props) {
   return (
-    <CustomButton onPress={() => Alert.alert('Simple Button pressed')}>
+    <CustomSelect data={wallets} onSelect={onChangeWallet}>
       <ThemedView style={styles.container}>
         <ThemedView style={styles.subcontainer}>
           <ThemedText type="subtitle">{wallets[index].name}</ThemedText>
+          <ThemedText type="default">   ▼</ThemedText>
         </ThemedView>
 
         <ThemedText type="default">
           {wallets[index].currency.font} {wallets[index].value.toFixed(2)}
         </ThemedText>
       </ThemedView>
-    </CustomButton>
+    </CustomSelect>
   );
 }
 
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   },
   subcontainer: {
     flexDirection: 'row',
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   picker: {
     width: 200,
@@ -49,8 +50,5 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginLeft: 8,
   },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
+  
 });

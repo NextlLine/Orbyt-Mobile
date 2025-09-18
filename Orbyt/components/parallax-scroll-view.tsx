@@ -14,8 +14,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import React, { PropsWithChildren } from 'react';
 import { opacity } from 'react-native-reanimated/lib/typescript/Colors';
 
-const SCREEN_HEIGHT = Dimensions.get('window').height;
-const IMAGE_SIZE = SCREEN_HEIGHT * 0.15;
+export const SCREEN_SIZE = Dimensions.get('window');
+const IMAGE_SIZE = SCREEN_SIZE.height * 0.15;
 const HEADER_HEIGHT = IMAGE_SIZE * 1.2;
 
 type Props = PropsWithChildren<{

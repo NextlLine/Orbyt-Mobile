@@ -18,24 +18,23 @@ type User = {
   wallets: Wallet[]
 }
 
-
 export default function HomeScreen() {
-const [index, setIndex] = useState(0);
-const user:User = {
-  name: "Jairo",
-  wallets: [
-    {
-      name: "Rumo aos 10k",
-      value: 10569.3,
-      currency: { id: "Brl", font: 'R$' },
-    },
-    {
-      name: "Cofrinho",
-      value: 432.12,
-      currency: { id: "Brl", font: 'R$' },
-    }
-  ],
-};
+  const [index, setIndex] = useState(0);
+  const user: User = {
+    name: "Jairo",
+    wallets: [
+      {
+        name: "Rumo aos 10k",
+        value: 10569.3,
+        currency: { id: "Brl", font: 'R$' },
+      },
+      {
+        name: "Cofrinho",
+        value: 432.12,
+        currency: { id: "Brl", font: 'R$' },
+      }
+    ],
+  };
 
   return (
     <ParallaxScrollView
@@ -43,10 +42,10 @@ const user:User = {
     >
       <ThemedView style={styles.container}>
         <WalletsInfo
-  wallets={user.wallets}
-  index={index}
-  onChangeWallet={(i) => setIndex(i)}
-/>
+          wallets={user.wallets}
+          index={index}
+          onChangeWallet={(i) => setIndex(i)}
+        />
       </ThemedView>
 
     </ParallaxScrollView>
@@ -58,8 +57,7 @@ const styles = StyleSheet.create({
     flex: 0,
     padding: 8,
     gap: 8,
-    borderRadius: 5, 
-    backgroundColor: 'rgba(255, 255, 255, 1)', 
+    borderRadius: 5,
   },
   reactLogo: {
     width: width * 0.3,
