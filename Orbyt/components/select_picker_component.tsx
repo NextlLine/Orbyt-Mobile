@@ -22,7 +22,7 @@ interface CustomSelectProps {
 
 export function CustomSelect({ children, data, onSelect }: CustomSelectProps) {
   const [visible, setVisible] = useState(false);
-  const backgroundColor = useOrbytColor("background");
+  const backgroundColor = useOrbytColor("backgroundItem");
   const textColor = useOrbytColor("text"); 
 
   const toggleModal = () => setVisible((prev) => !prev);
