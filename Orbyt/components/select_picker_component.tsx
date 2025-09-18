@@ -23,7 +23,7 @@ interface CustomSelectProps {
 export function CustomSelect({ children, data, onSelect }: CustomSelectProps) {
   const [visible, setVisible] = useState(false);
   const backgroundColor = useOrbytColor("background");
-  const textColor = useOrbytColor("text"); // pega a cor do tema
+  const textColor = useOrbytColor("text"); 
 
   const toggleModal = () => setVisible((prev) => !prev);
 
@@ -56,14 +56,12 @@ export function CustomSelect({ children, data, onSelect }: CustomSelectProps) {
               <Text style={[styles.modalTitle, { color: useOrbytColor('text') }]}>
                 Choose the wallet
               </Text>
-
               <FlatList
                 data={data}
                 keyExtractor={(_, index) => String(index)}
                 renderItem={renderOption}
                 style={{ width: "100%" }}
               />
-
               <TouchableOpacity style={styles.cancelButton} onPress={toggleModal}>
                 <Text style={styles.closeButton}>Cancel</Text>
               </TouchableOpacity>
@@ -84,7 +82,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContent: {
-    width: SCREEN_SIZE.width * 0.9,
+    width: SCREEN_SIZE.width * 0.95,
     maxHeight: SCREEN_SIZE.height * 0.6,
     padding: 20,
     borderRadius: 8,

@@ -13,9 +13,9 @@ export class CustomColors {
 }
 
 export const orbytColors = [
-  new CustomColors("main", "#060134", "#043FFF"),
-  new CustomColors("background", "#383838", "#F3F4F7"),
-  new CustomColors("text", "#ffffffff", "#000000ff"),
+  new CustomColors("main", "rgba(0, 17, 73, 1)", "rgba(4,63,255,1)"),
+  new CustomColors("background", "rgba(0,0,0,1)", "rgba(239, 239, 239, 1)"),
+  new CustomColors("text", "rgba(255, 255, 255, 1)", "rgba(0, 0, 0, 1)"),
 ] as const;
 
 export type OrbytColorName = typeof orbytColors[number]["name"];

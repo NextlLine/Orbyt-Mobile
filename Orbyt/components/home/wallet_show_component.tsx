@@ -3,8 +3,9 @@ import { Alert, Button, GestureResponderEvent, StyleSheet, TouchableOpacity, Vie
 import { ThemedView } from '../themed-view';
 import { ThemedText } from '../themed-text';
 import { Wallet } from '@/app/(tabs)/home';
-import { CustomButton } from '../custom_button_component';
+import Icon from 'react-native-vector-icons/Feather'; // Or FontAwesome, MaterialIcons, etc.
 import { CustomSelect } from '../select_picker_component';
+import { useOrbytColor } from '@/assets/colors/defaultColors';
 
 type WalletsInfoProps = {
   wallets: Wallet[];
@@ -14,18 +15,20 @@ type WalletsInfoProps = {
 
 export default function WalletsInfo({ wallets, index, onChangeWallet }: WalletsInfoProps) {
   return (
-    <CustomSelect data={wallets} onSelect={onChangeWallet}>
-      <ThemedView style={styles.container}>
+    <ThemedView style={styles.container}>
+      <CustomSelect data={wallets} onSelect={onChangeWallet}>
         <ThemedView style={styles.subcontainer}>
           <ThemedText type="subtitle">{wallets[index].name}</ThemedText>
-          <ThemedText type="default">   ▼</ThemedText>
-        </ThemedView>
+          <Icon name="chevron-down" size={20} color = {useOrbytColor('text')} />
 
-        <ThemedText type="default">
-          {wallets[index].currency.font} {wallets[index].value.toFixed(2)}
-        </ThemedText>
-      </ThemedView>
-    </CustomSelect>
+        </ThemedView>
+      </CustomSelect>
+
+      <ThemedText type="default">
+        {wallets[index].currency.font} {wallets[index].value.toFixed(2)}
+      </ThemedText>
+    </ThemedView>
+
   );
 }
 
@@ -35,14 +38,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     backgroundColor: 'rgba(0,0,0,0)',
   },
-  subcontainer: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(0,0,0,0)',
-  },
-  picker: {
-    width: 200,
-    marginTop: 10,
-  },
+ subcontainer: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between', 
+  backgroundColor: 'rgba(0,0,0,0)',
+  width: '100%', 
+},
+
   button: {
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -50,5 +53,5 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginLeft: 8,
   },
-  
+
 });
