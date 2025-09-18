@@ -23,6 +23,7 @@ interface CustomSelectProps {
 export function CustomSelect({ children, data, onSelect }: CustomSelectProps) {
   const [visible, setVisible] = useState(false);
   const backgroundColor = useOrbytColor("background");
+  const textColor = useOrbytColor("text"); // pega a cor do tema
 
   const toggleModal = () => setVisible((prev) => !prev);
 
@@ -36,7 +37,7 @@ export function CustomSelect({ children, data, onSelect }: CustomSelectProps) {
       style={styles.optionButton}
       onPress={() => handleSelect(index)}
     >
-      <Text style={styles.optionText}>
+      <Text style={[styles.optionText, { color: textColor}]}>
         {item.name} — {item.currency.font} {item.value.toFixed(2)}
       </Text>
     </TouchableOpacity>
@@ -52,7 +53,9 @@ export function CustomSelect({ children, data, onSelect }: CustomSelectProps) {
         <View style={styles.modalOverlay}>
           <SafeAreaView>
             <View style={[styles.modalContent, { backgroundColor }]}>
-              <Text style={styles.modalTitle}>Choose the wallet</Text>
+              <Text style={[styles.modalTitle, { color: useOrbytColor('text') }]}>
+                Choose the wallet
+              </Text>
 
               <FlatList
                 data={data}
