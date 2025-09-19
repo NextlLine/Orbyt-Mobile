@@ -1,4 +1,3 @@
-// WalletsInfoGraph.tsx
 import React, { useState } from 'react';
 import { View, LayoutChangeEvent } from 'react-native';
 import Svg, { Rect } from 'react-native-svg';
@@ -31,15 +30,14 @@ const formatMonth = (monthStr: string) => {
 
 export default function WalletsInfoGraph({ wallet }: WalletsInfoGraphProps) {
   const [containerWidth, setContainerWidth] = useState(0);
-  const lastSix = wallet.totalMonth.slice(-6); 
+  const lastSix = wallet.totalMonth.slice(-6);
   const maxValue = Math.max(...lastSix.map(m => Math.abs(m.value))) || 1;
 
-  const maxHeight = 150; 
-  const paddingBottom = 20;
-  const zeroY = (maxHeight - paddingBottom) / 2;
+  const maxHeight = 150;
+  const zeroY = maxHeight / 2;
 
-  const colorW = useOrbytColor('gain');
-  const colorL = useOrbytColor('loose');
+  const colorW = useOrbytColor('gainGraph');
+  const colorL = useOrbytColor('looseGraph');
 
   const handleLayout = (e: LayoutChangeEvent) => {
     setContainerWidth(e.nativeEvent.layout.width);
@@ -49,9 +47,10 @@ export default function WalletsInfoGraph({ wallet }: WalletsInfoGraphProps) {
   const spacing = barWidth * 0.5;
   const svgWidth = lastSix.length * (barWidth + spacing);
 
+
   return (
     <View
-      style={{ alignItems: 'center', width: '100%', backgroundColor: "rgba(255, 255, 255, 0)"}}
+      style={{ alignItems: 'center', width: '100%', backgroundColor: "transparent" }}
       onLayout={handleLayout}
     >
       <ThemedText style={{ marginBottom: 8 }}>
@@ -59,11 +58,11 @@ export default function WalletsInfoGraph({ wallet }: WalletsInfoGraphProps) {
       </ThemedText>
 
       {containerWidth > 0 && (
-        <>
+        <View style={{ backgroundColor: "transparent", alignSelf:'center' }}>
           <Svg height={maxHeight} width={svgWidth}>
             {lastSix.map((month, i) => {
               const valueRatio = Math.abs(month.value) / maxValue;
-              const barHeight = valueRatio * (maxHeight - paddingBottom) / 2;
+              const barHeight = valueRatio * (maxHeight) / 2;
 
               return (
                 <Rect
@@ -74,27 +73,26 @@ export default function WalletsInfoGraph({ wallet }: WalletsInfoGraphProps) {
                   height={barHeight}
                   fill={month.value >= 0 ? colorW : colorL}
                   rx={4}
-                  
                 />
               );
             })}
           </Svg>
 
-          <View style={{ flexDirection: 'row', marginTop: 5, justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row', alignSelf:'center' }}>
             {lastSix.map((month, i) => (
               <ThemedText
+                type="default"
                 key={i}
                 style={{
                   width: barWidth + spacing,
                   textAlign: 'center',
-                  fontSize: 12,
                 }}
               >
                 {formatMonth(month.month)}
               </ThemedText>
             ))}
           </View>
-        </>
+        </View>
       )}
     </View>
   );

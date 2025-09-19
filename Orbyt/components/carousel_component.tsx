@@ -9,6 +9,8 @@ import {
   NativeScrollEvent,
   LayoutChangeEvent,
 } from "react-native";
+import { ThemedText } from "./themed-text";
+import { useOrbytColor } from "@/assets/colors/defaultColors";
 
 interface CarouselItem {
   tag: string;
@@ -17,8 +19,9 @@ interface CarouselItem {
 
 interface CustomCarouselProps {
   items: CarouselItem[];
-  spacing?: number; // espaço entre itens em px
+  spacing?: number;
   initialIndex?: number;
+  activeTagColor: string;
 }
 
 interface CustomCarouselState {
@@ -37,7 +40,6 @@ export class CustomCarousel extends React.Component<
     containerWidth: 0,
   };
 
-  // quando o usuário rola, atualiza activeIndex com base no containerWidth
   handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset } = event.nativeEvent;
     const spacing = this.props.spacing ?? 0;
@@ -51,13 +53,10 @@ export class CustomCarousel extends React.Component<
     }
   };
 
-  // mede o espaço que o pai deu pro carrossel
   handleLayout = (event: LayoutChangeEvent) => {
     const { width } = event.nativeEvent.layout;
-    // só setar se mudou (evita re-renders infinitos)
     if (width && width !== this.state.containerWidth) {
       this.setState({ containerWidth: width }, () => {
-        // se initialIndex foi passado e > 0, posiciona o scroll nele
         const { activeIndex, containerWidth } = this.state;
         if (activeIndex > 0 && this.scrollRef.current) {
           const spacing = this.props.spacing ?? 0;
@@ -68,7 +67,6 @@ export class CustomCarousel extends React.Component<
     }
   };
 
-  // rola programaticamente para um índice (quando clica na tag)
   scrollToIndex = (index: number) => {
     const spacing = this.props.spacing ?? 0;
     const { containerWidth } = this.state;
@@ -83,29 +81,27 @@ export class CustomCarousel extends React.Component<
     const { activeIndex, containerWidth } = this.state;
 
     return (
-      <View style={{ width: "100%", backgroundColor: "rgba(255, 255, 255, 0)" }} onLayout={this.handleLayout}>
+      <View
+        style={{ width: "100%", backgroundColor: "transparent" }}
+        onLayout={this.handleLayout}
+      >
         {containerWidth > 0 && (
           <>
-           <View style={styles.tagContainer}>
-              {items.map((it, i) => (
-                <TouchableOpacity key={i} onPress={() => this.scrollToIndex(i)} activeOpacity={0.7}>
-                  <Text style={[styles.tagText, activeIndex === i && styles.activeTag]}>
-                    {it.tag}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
             <ScrollView
               ref={this.scrollRef}
               horizontal
               showsHorizontalScrollIndicator={false}
-              pagingEnabled={false} 
+              pagingEnabled={false}
               decelerationRate="fast"
               snapToInterval={containerWidth + spacing}
               snapToAlignment="start"
               onScroll={this.handleScroll}
               scrollEventThrottle={16}
-              contentContainerStyle={{ paddingHorizontal: spacing / 2 }}
+              style={{ backgroundColor: "transparent" }}
+              contentContainerStyle={{
+                paddingHorizontal: spacing / 2,
+                backgroundColor: "transparent",
+              }}
             >
               {items.map((item, i) => (
                 <View
@@ -113,7 +109,7 @@ export class CustomCarousel extends React.Component<
                   style={{
                     width: containerWidth,
                     marginHorizontal: spacing / 2,
-                    backgroundColor: "rgba(255, 0, 0, 0)"
+                    backgroundColor: "transparent",
                   }}
                 >
                   {item.content}
@@ -121,7 +117,24 @@ export class CustomCarousel extends React.Component<
               ))}
             </ScrollView>
 
-           
+                 <View style={styles.tagContainer}>
+              {items.map((it, i) => (
+                <TouchableOpacity
+                  key={i}
+                  onPress={() => this.scrollToIndex(i)}
+                  activeOpacity={0.7}
+                >
+                  <ThemedText
+                    style={[
+                      styles.tagText,
+                      activeIndex === i && [styles.activeTag, { color:  this.props.activeTagColor}],
+                    ]}
+                  >
+                    {it.tag}
+                  </ThemedText>
+                </TouchableOpacity>
+              ))}
+            </View>
           </>
         )}
       </View>
@@ -135,7 +148,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexWrap: "wrap",
     marginTop: 10,
-    backgroundColor: "rgba(255, 0, 0, 0)"
+    backgroundColor: "transparent", 
   },
   tagText: {
     marginHorizontal: 6,
@@ -144,7 +157,6 @@ const styles = StyleSheet.create({
   },
   activeTag: {
     fontWeight: "700",
-    color: "#111",
-    textDecorationLine: "underline",
+    // color: useOrbytColor('activeTag'),
   },
 });

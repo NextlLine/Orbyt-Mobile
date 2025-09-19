@@ -47,18 +47,16 @@ export default function HomeScreen() {
           { month: "04-2025", value: 780 },
           { month: "05-2025", value: -1500 },
           { month: "06-2025", value: 3000 },
+          { month: "06-2025", value: 1130.4 },
         ]
       },
       {
         name: "Cofrinho",
-        total: 432.12,
+        total: 0,
         incoming: 0,
         outcoming: 0,
         currency: { id: "Brl", font: 'R$' },
         totalMonth: [
-          // { month: "01-2025", value: -1220 },
-          // { month: "02-2025", value: 1980 },
-          //  { month: "03-2025", value: -1980 },
 
         ]
       }
@@ -77,22 +75,13 @@ export default function HomeScreen() {
         />
       </ThemedView>
 
-      {/* <ThemedView style={[styles.container, { backgroundColor: useOrbytColor('backgroundItem'), alignItems: 'center', padding: 20 }]}>
-        {user.wallets[index] && user.wallets[index].totalMonth?.length > 0 ? (
-          <WalletsInfoGraph wallet={user.wallets[index]} />
-        ) : (
-          <ThemedText>Gráfico indisponível por falta de dado</ThemedText>
-        )}
-      </ThemedView>
-       */}
-         <ThemedView style={[styles.container, { backgroundColor: useOrbytColor('backgroundItem'), alignItems: 'center', padding: 20 }]}>
+      <ThemedView style={[styles.container, { backgroundColor: useOrbytColor('backgroundItem'), alignItems: 'center', padding: 20 }]}>
         {user.wallets[index] && user.wallets[index].totalMonth?.length > 0 ? (
           <WalletCarousel wallet={user.wallets[index]} />
         ) : (
           <ThemedText>Gráfico indisponível por falta de dado</ThemedText>
         )}
       </ThemedView>
-      
     </ParallaxScrollView>
   );
 }

@@ -18,7 +18,10 @@ export const orbytColors = [
     new CustomColors("backgroundItem", "rgba(39, 39, 44, 1)", "rgba(255, 255, 255, 1)"),
     new CustomColors("text", "rgba(255, 255, 255, 1)", "rgba(0, 0, 0, 1)"),
     new CustomColors("gain", "rgba(0, 168, 3, 1)", "rgba(1, 92, 2, 1)"),
-    new CustomColors("loose", "rgba(225, 0, 0, 1)", "rgba(133, 0, 0, 1)")
+    new CustomColors("loose", "rgba(225, 0, 0, 1)", "rgba(133, 0, 0, 1)"),
+      new CustomColors("gainGraph", "rgba(0, 168, 3, 1)", "rgba(0, 168, 3, 1)"),
+    new CustomColors("looseGraph", "rgba(225, 0, 0, 1)", "rgba(225, 0, 0, 1)"),
+    new CustomColors('activeTag', "rgba(255, 255, 255, 1)", "rgba(0, 0, 0, 1)")
 ] as const;
 
 export type OrbytColorName = typeof orbytColors[number]["name"];
