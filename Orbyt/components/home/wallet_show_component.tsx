@@ -3,7 +3,7 @@ import { Alert, Button, GestureResponderEvent, StyleSheet, TouchableOpacity, Vie
 import { ThemedView } from '../themed-view';
 import { ThemedText } from '../themed-text';
 import { Wallet } from '@/app/(tabs)/home';
-import Icon from 'react-native-vector-icons/Feather'; // Or FontAwesome, MaterialIcons, etc.
+import Icon from 'react-native-vector-icons/Feather';
 import { CustomSelect } from '../select_picker_component';
 import { useOrbytColor } from '@/assets/colors/defaultColors';
 
@@ -29,16 +29,16 @@ export default function WalletsInfo({ wallets, index, onChangeWallet }: WalletsI
           {wallets[index].currency.font} {wallets[index].total.toFixed(2)}
         </ThemedText>
 
-        <ThemedText style= {{color: useOrbytColor('gain')}}>
-           {wallets[index].incoming.toFixed(2)}
+        <ThemedText style={{ color: useOrbytColor('gain') }}>
+          {wallets[index].incoming.toFixed(2)}
           <Icon name="trending-up" size={20} color={useOrbytColor('gain')} />
-         
+
         </ThemedText>
 
-        <ThemedText style= {{color: useOrbytColor('loose')}}>
+        <ThemedText style={{ color: useOrbytColor('loose') }}>
           {wallets[index].outcoming.toFixed(2)}
           <Icon name="trending-down" size={20} color={useOrbytColor('loose')} />
-          
+
         </ThemedText>
       </ThemedView>
     </ThemedView>
