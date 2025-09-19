@@ -11,7 +11,9 @@ const { width } = Dimensions.get('window');
 
 export type Wallet = {
   name: string;
-  value: number;
+  total: number;
+  incoming: number;
+  outcoming: number;
   currency: { id: string; font: string };
 };
 type User = {
@@ -26,12 +28,16 @@ export default function HomeScreen() {
     wallets: [
       {
         name: "Rumo aos 10k",
-        value: 10569.3,
+        total: 10569.3,
+        incoming: 500,
+        outcoming: 20,
         currency: { id: "Brl", font: 'R$' },
       },
       {
         name: "Cofrinho",
-        value: 432.12,
+        total: 432.12,
+        incoming: 0,
+        outcoming: 0,
         currency: { id: "Brl", font: 'R$' },
       }
     ],
@@ -41,7 +47,7 @@ export default function HomeScreen() {
     <ParallaxScrollView
       headerBackgroundColor= {{ color: useOrbytColor('main')}}
     >
-      <ThemedView style={styles.container}>
+      <ThemedView style={[styles.container, { backgroundColor: useOrbytColor('backgroundItem')}]}>
         <WalletsInfo
           wallets={user.wallets}
           index={index}

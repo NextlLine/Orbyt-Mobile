@@ -38,7 +38,7 @@ export function CustomSelect({ children, data, onSelect }: CustomSelectProps) {
       onPress={() => handleSelect(index)}
     >
       <Text style={[styles.optionText, { color: textColor}]}>
-        {item.name} — {item.currency.font} {item.value.toFixed(2)}
+        {item.name} — {item.currency.font} {item.total.toFixed(2)}
       </Text>
     </TouchableOpacity>
   );
@@ -46,13 +46,14 @@ export function CustomSelect({ children, data, onSelect }: CustomSelectProps) {
   return (
     <>
       <TouchableOpacity onPress={toggleModal}>
-        {children || <Text style={styles.buttonText}>Select ▼</Text>}
+        {children || <Text style={[styles.buttonText, {color: useOrbytColor('loose')}]}>Select ▼</Text>}
       </TouchableOpacity>
 
       <Modal visible={visible} animationType="fade" transparent>
         <View style={styles.modalOverlay}>
-          <SafeAreaView>
             <View style={[styles.modalContent, { backgroundColor }]}>
+                        <SafeAreaView>
+
               <Text style={[styles.modalTitle, { color: useOrbytColor('text') }]}>
                 Choose the wallet
               </Text>
@@ -65,8 +66,9 @@ export function CustomSelect({ children, data, onSelect }: CustomSelectProps) {
               <TouchableOpacity style={styles.cancelButton} onPress={toggleModal}>
                 <Text style={styles.closeButton}>Cancel</Text>
               </TouchableOpacity>
+               </SafeAreaView>
             </View>
-          </SafeAreaView>
+         
         </View>
       </Modal>
     </>
@@ -82,11 +84,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContent: {
-    width: SCREEN_SIZE.width * 0.95,
-    maxHeight: SCREEN_SIZE.height * 0.6,
+    width: SCREEN_SIZE.width * 1,
+    maxHeight: SCREEN_SIZE.height * 0.5,
     padding: 20,
-    borderRadius: 8,
-    alignItems: "center",
   },
   modalTitle: { fontSize: 18, marginBottom: 20 },
   optionButton: {
