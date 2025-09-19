@@ -3,6 +3,8 @@
     "@react-native-picker/picker": "2.11.1",
     "expo": "^54.0.8",
     "lucide": "^0.544.0",
+    "react-native-gifted-charts": "^1.4.64",
+    "react-native-pager-view": "^6.9.1",
     "react-native-vector-icons": "^10.3.0"
   }
 }
