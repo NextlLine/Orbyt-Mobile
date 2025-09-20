@@ -69,6 +69,7 @@ export default function WalletsInfoGraph({ wallet, lastN }: WalletsInfoGraphProp
                 <Rect
                   key={i}
                   x={(1/(Math.min(lastN, wallet.totalMonth.length)) + i) * (barWidth + spacing)}
+
                   y={month.value >= 0 ? zeroY - barHeight : zeroY}
                   width={barWidth}
                   height={barHeight}

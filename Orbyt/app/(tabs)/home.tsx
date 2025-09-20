@@ -5,7 +5,6 @@ import { ThemedView } from '@/components/themed-view';
 import React, { useState } from 'react';
 import WalletsInfo from '@/components/home/wallet_show_component';
 import { useOrbytColor } from '@/assets/colors/defaultColors';
-import WalletsInfoGraph from '@/components/home/walllet_graph_component';
 import { ThemedText } from '@/components/themed-text';
 import WalletCarousel from '@/components/home/wallet_carousel_component';
 
