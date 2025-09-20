@@ -67,7 +67,7 @@ export default function WalletsInfoGraph({ wallet }: WalletsInfoGraphProps) {
               return (
                 <Rect
                   key={i}
-                  x={i * (barWidth + spacing)}
+                  x={(1/6 + i) * (barWidth + spacing)}
                   y={month.value >= 0 ? zeroY - barHeight : zeroY}
                   width={barWidth}
                   height={barHeight}
