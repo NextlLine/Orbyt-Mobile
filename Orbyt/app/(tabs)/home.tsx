@@ -47,7 +47,7 @@ export default function HomeScreen() {
           { month: "04-2025", value: 780 },
           { month: "05-2025", value: -1500 },
           { month: "06-2025", value: 3000 },
-          { month: "06-2025", value: 1130.4 },
+          { month: "07-2025", value: 1130.4 },
         ]
       },
       {

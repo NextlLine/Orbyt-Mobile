@@ -7,6 +7,7 @@ import { ThemedText } from '../themed-text';
 
 type WalletsInfoGraphProps = {
   wallet: Wallet;
+  lastN: number;
 };
 
 const formatMonth = (monthStr: string) => {
@@ -28,9 +29,9 @@ const formatMonth = (monthStr: string) => {
   return map[month] || month;
 };
 
-export default function WalletsInfoGraph({ wallet }: WalletsInfoGraphProps) {
+export default function WalletsInfoGraph({ wallet, lastN }: WalletsInfoGraphProps) {
   const [containerWidth, setContainerWidth] = useState(0);
-  const lastSix = wallet.totalMonth.slice(-6);
+  const lastSix = wallet.totalMonth.slice(-lastN);
   const maxValue = Math.max(...lastSix.map(m => Math.abs(m.value))) || 1;
 
   const maxHeight = 150;
@@ -58,7 +59,7 @@ export default function WalletsInfoGraph({ wallet }: WalletsInfoGraphProps) {
       </ThemedText>
 
       {containerWidth > 0 && (
-        <View style={{ backgroundColor: "transparent", alignSelf:'center' }}>
+        <View style={{ backgroundColor: "transparent", alignSelf: 'center' }}>
           <Svg height={maxHeight} width={svgWidth}>
             {lastSix.map((month, i) => {
               const valueRatio = Math.abs(month.value) / maxValue;
@@ -67,7 +68,7 @@ export default function WalletsInfoGraph({ wallet }: WalletsInfoGraphProps) {
               return (
                 <Rect
                   key={i}
-                  x={i * (barWidth + spacing)}
+                  x={(1/(Math.min(lastN, wallet.totalMonth.length)) + i) * (barWidth + spacing)}
                   y={month.value >= 0 ? zeroY - barHeight : zeroY}
                   width={barWidth}
                   height={barHeight}
@@ -78,7 +79,7 @@ export default function WalletsInfoGraph({ wallet }: WalletsInfoGraphProps) {
             })}
           </Svg>
 
-          <View style={{ flexDirection: 'row', alignSelf:'center' }}>
+          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
             {lastSix.map((month, i) => (
               <ThemedText
                 type="default"
@@ -86,6 +87,7 @@ export default function WalletsInfoGraph({ wallet }: WalletsInfoGraphProps) {
                 style={{
                   width: barWidth + spacing,
                   textAlign: 'center',
+                 
                 }}
               >
                 {formatMonth(month.month)}
