@@ -68,7 +68,7 @@ export default function LastEntryWalletGraph({ wallet, lastN }: WalletsInfoGraph
               return (
                 <Rect
                   key={i}
-                  x={(1/(Math.min(lastN, wallet.totalMonth.length)) + i) * (barWidth + spacing)}
+                  x={(1/6 + i) * (barWidth + spacing)}
 
                   y={month.value >= 0 ? zeroY - barHeight : zeroY}
                   width={barWidth}

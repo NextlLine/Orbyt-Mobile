@@ -35,7 +35,7 @@ export default function WalletCarousel({ wallet }: WalletCarousel) {
                         content: 
                         <ThemedView style={{ backgroundColor: "rgba(255, 255, 255, 0)" }}>
                                 {wallet && wallet.totalMonth?.length > 0 ? (
-                                    <LastEntryWalletGraph wallet={wallet} lastN={3} />
+                                    <LastEntryWalletGraph wallet={wallet} lastN={4} />
                                 ) : (
                                     <ThemedText>Gráfico indisponível por falta de dado</ThemedText>
                                 )}
