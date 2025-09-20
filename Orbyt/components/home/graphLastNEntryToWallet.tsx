@@ -29,7 +29,7 @@ const formatMonth = (monthStr: string) => {
   return map[month] || month;
 };
 
-export default function WalletsInfoGraph({ wallet, lastN }: WalletsInfoGraphProps) {
+export default function LastEntryWalletGraph({ wallet, lastN }: WalletsInfoGraphProps) {
   const [containerWidth, setContainerWidth] = useState(0);
   const lastSix = wallet.totalMonth.slice(-lastN);
   const maxValue = Math.max(...lastSix.map(m => Math.abs(m.value))) || 1;

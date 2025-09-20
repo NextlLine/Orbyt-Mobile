@@ -7,7 +7,7 @@ import { SCREEN_SIZE } from '../parallax-scroll-view';
 import { ThemedText } from '../themed-text';
 import { ThemedView } from '../themed-view';
 import { CustomCarousel } from '../carousel_component';
-import WalletsInfoGraph from './walllet_graph_component';
+import LastEntryWalletGraph from './graphLastNEntryToWallet';
 
 type WalletCarousel = {
     wallet: Wallet;
@@ -23,7 +23,7 @@ export default function WalletCarousel({ wallet }: WalletCarousel) {
                         content:
                             <ThemedView style={{ backgroundColor: "rgba(255, 255, 255, 0)" }}>
                                 {wallet && wallet.totalMonth?.length > 0 ? (
-                                    <WalletsInfoGraph wallet={wallet} lastN={6}/>
+                                    <LastEntryWalletGraph wallet={wallet} lastN={6}/>
                                 ) : (
                                     <ThemedText>Gráfico indisponível por falta de dado</ThemedText>
                                 )}
@@ -35,7 +35,7 @@ export default function WalletCarousel({ wallet }: WalletCarousel) {
                         content: 
                         <ThemedView style={{ backgroundColor: "rgba(255, 255, 255, 0)" }}>
                                 {wallet && wallet.totalMonth?.length > 0 ? (
-                                    <WalletsInfoGraph wallet={wallet} lastN={3} />
+                                    <LastEntryWalletGraph wallet={wallet} lastN={3} />
                                 ) : (
                                     <ThemedText>Gráfico indisponível por falta de dado</ThemedText>
                                 )}
