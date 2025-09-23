@@ -33,17 +33,10 @@ export default function HomeScreen() {
 
       <ThemedView
         style={[
-          styles.container,
-          {
-            backgroundColor: useOrbytColor("backgroundItem")
-          },
+          styles.container,{backgroundColor: useOrbytColor("backgroundItem")},
         ]}
       >
-        {user.wallets[index]?.history.length > 0 ? (
-          <WalletCarousel wallet={user.wallets[index]} />
-        ) : (
-          <ThemedText>Gráfico indisponível por falta de dados</ThemedText>
-        )}
+        <WalletCarousel wallet={user.wallets[index]} />
       </ThemedView>
     </ParallaxScrollView>
   );

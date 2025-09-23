@@ -13,7 +13,7 @@ type CustomGraphProps = {
 
 export default function CustomGraph({ values, qtdToShow }: CustomGraphProps) {
   const [containerWidth, setContainerWidth] = useState(0);
-  const lastN = values.slice(-(qtdToShow? qtdToShow : 6));
+  const lastN = values.slice(-(qtdToShow ? qtdToShow : 6));
   const maxValue = Math.max(...lastN.map(m => Math.abs(m.value))) || 1;
 
   const maxHeight = 150;
@@ -55,11 +55,18 @@ export default function CustomGraph({ values, qtdToShow }: CustomGraphProps) {
 
   const smoothPath = createSmoothPath(points);
 
+  if (values.length <= 0) {
+    return (
+      <View style={{ alignItems: 'center', backgroundColor: "transparent" }}>
+        <ThemedText>
+          No such data to plot graph
+        </ThemedText>
+      </View>
+    );
+  }
+
   return (
-    <View
-      style={{ alignItems: 'center', backgroundColor: "transparent" }}
-      onLayout={handleLayout}
-    >
+    <View style={{ alignItems: 'center', backgroundColor: "transparent" }} onLayout={handleLayout}>
       <ThemedText style={{ marginBottom: 8 }}>
         Capital gain in the last 6 months
       </ThemedText>
