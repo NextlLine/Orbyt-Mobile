@@ -2,10 +2,10 @@ import React from 'react';
 import { Alert, Button, GestureResponderEvent, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { ThemedView } from '../themed-view';
 import { ThemedText } from '../themed-text';
-import { Wallet } from '@/app/(tabs)/home';
 import Icon from 'react-native-vector-icons/Feather';
 import { CustomSelect } from '../select_picker_component';
 import { useOrbytColor } from '@/assets/colors/defaultColors';
+import { Wallet } from '@/model/mockModels';
 
 type WalletsInfoProps = {
   wallets: Wallet[];
@@ -26,7 +26,7 @@ export default function WalletsInfo({ wallets, index, onChangeWallet }: WalletsI
 
       <ThemedView style={styles.subsubcontainer}>
         <ThemedText type="default">
-          {wallets[index].currency.font} {wallets[index].total.toFixed(2)}
+          {wallets[index].currency.symbol} {wallets[index].total.toFixed(2)}
         </ThemedText>
 
         <ThemedText style={{ color: useOrbytColor('gain') }}>

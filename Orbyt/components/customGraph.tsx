@@ -1,37 +1,18 @@
 import React, { useState } from 'react';
 import { View, LayoutChangeEvent } from 'react-native';
-import Svg, { Rect } from 'react-native-svg';
-import { Wallet } from '@/app/(tabs)/home';
+import Svg, { Rect, Path, Circle } from 'react-native-svg';
 import { useOrbytColor } from '@/assets/colors/defaultColors';
-import { ThemedText } from '../themed-text';
+import { GraphC } from '@/model/mockModels';
+import { ThemedText } from './themed-text';
+import formatData from '@/util/formatData';
 
 type WalletsInfoGraphProps = {
-  wallet: Wallet;
-  lastN: number;
+  values: GraphC[];
 };
 
-const formatMonth = (monthStr: string) => {
-  const [month] = monthStr.split('-');
-  const map: Record<string, string> = {
-    '01': 'jan',
-    '02': 'fev',
-    '03': 'mar',
-    '04': 'abr',
-    '05': 'mai',
-    '06': 'jun',
-    '07': 'jul',
-    '08': 'ago',
-    '09': 'set',
-    '10': 'out',
-    '11': 'nov',
-    '12': 'dez',
-  };
-  return map[month] || month;
-};
-
-export default function LastEntryWalletGraph({ wallet, lastN }: WalletsInfoGraphProps) {
+export default function CustomGraph({ values }: WalletsInfoGraphProps) {
   const [containerWidth, setContainerWidth] = useState(0);
-  const lastSix = wallet.totalMonth.slice(-lastN);
+  const lastSix = values.slice(-6);
   const maxValue = Math.max(...lastSix.map(m => Math.abs(m.value))) || 1;
 
   const maxHeight = 150;
@@ -39,6 +20,7 @@ export default function LastEntryWalletGraph({ wallet, lastN }: WalletsInfoGraph
 
   const colorW = useOrbytColor('gainGraph');
   const colorL = useOrbytColor('looseGraph');
+  const colorLine = useOrbytColor('activeTag');
 
   const handleLayout = (e: LayoutChangeEvent) => {
     setContainerWidth(e.nativeEvent.layout.width);
@@ -48,28 +30,51 @@ export default function LastEntryWalletGraph({ wallet, lastN }: WalletsInfoGraph
   const spacing = barWidth * 0.5;
   const svgWidth = lastSix.length * (barWidth + spacing);
 
+  const points = lastSix.map((month, i) => {
+    const valueRatio = Math.abs(month.value) / maxValue;
+    const barHeight = valueRatio * (maxHeight / 2);
+    const x = (1 / 6 + i) * (barWidth + spacing) + barWidth / 2;
+    const y = month.value >= 0 ? zeroY - barHeight : zeroY + barHeight;
+    return { x, y };
+  });
+
+  const createSmoothPath = (pts: { x: number; y: number }[]) => {
+    if (pts.length < 2) return "";
+    let d = `M ${pts[0].x} ${pts[0].y}`;
+    for (let i = 0; i < pts.length - 1; i++) {
+      const p0 = pts[i];
+      const p1 = pts[i + 1];
+      const midX = (p0.x + p1.x) / 2;
+      const midY = (p0.y + p1.y) / 2;
+      d += ` Q ${p0.x},${p0.y} ${midX},${midY}`;
+    }
+    d += ` T ${pts[pts.length - 1].x},${pts[pts.length - 1].y}`;
+    return d;
+  };
+
+  const smoothPath = createSmoothPath(points);
 
   return (
     <View
-      style={{ alignItems: 'center', width: '100%', backgroundColor: "transparent" }}
+      style={{ alignItems: 'center', backgroundColor: "transparent" }}
       onLayout={handleLayout}
     >
       <ThemedText style={{ marginBottom: 8 }}>
-        Ganho de capital nos últimos 6 meses
+        Capital gain in the last 6 months
       </ThemedText>
 
       {containerWidth > 0 && (
-        <View style={{ backgroundColor: "transparent", alignSelf: 'center' }}>
+        <View>
           <Svg height={maxHeight} width={svgWidth}>
+
             {lastSix.map((month, i) => {
               const valueRatio = Math.abs(month.value) / maxValue;
-              const barHeight = valueRatio * (maxHeight) / 2;
+              const barHeight = valueRatio * (maxHeight / 2);
 
               return (
                 <Rect
                   key={i}
-                  x={(1/6 + i) * (barWidth + spacing)}
-
+                  x={(1 / 6 + i) * (barWidth + spacing)}
                   y={month.value >= 0 ? zeroY - barHeight : zeroY}
                   width={barWidth}
                   height={barHeight}
@@ -78,20 +83,30 @@ export default function LastEntryWalletGraph({ wallet, lastN }: WalletsInfoGraph
                 />
               );
             })}
+
+            <Path
+              d={smoothPath}
+              fill="none"
+              stroke={colorLine}
+              strokeWidth={2}
+            />
+
+            {points.map((p, i) => (
+              <Circle key={i} cx={p.x} cy={p.y} r={3} fill={colorLine} />
+            ))}
           </Svg>
 
           <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-            {lastSix.map((month, i) => (
+            {lastSix.map((m, i) => (
               <ThemedText
                 type="default"
                 key={i}
                 style={{
                   width: barWidth + spacing,
                   textAlign: 'center',
-                 
                 }}
               >
-                {formatMonth(month.month)}
+                {formatData(m.label)}
               </ThemedText>
             ))}
           </View>

@@ -8,6 +8,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   LayoutChangeEvent,
+  ViewStyle,
 } from "react-native";
 import { ThemedText } from "./themed-text";
 import { useOrbytColor } from "@/assets/colors/defaultColors";
@@ -22,6 +23,7 @@ interface CustomCarouselProps {
   spacing?: number;
   initialIndex?: number;
   activeTagColor: string;
+  style?: ViewStyle;
 }
 
 interface CustomCarouselState {
@@ -82,7 +84,7 @@ export class CustomCarousel extends React.Component<
 
     return (
       <View
-        style={{ width: "100%", backgroundColor: "transparent" }}
+        style={this.props.style}
         onLayout={this.handleLayout}
       >
         {containerWidth > 0 && (
@@ -99,7 +101,6 @@ export class CustomCarousel extends React.Component<
               scrollEventThrottle={16}
               style={{ backgroundColor: "transparent" }}
               contentContainerStyle={{
-                paddingHorizontal: spacing / 2,
                 backgroundColor: "transparent",
               }}
             >
