@@ -6,14 +6,15 @@ import { GraphC } from '@/model/mockModels';
 import { ThemedText } from './themed-text';
 import formatData from '@/util/formatData';
 
-type WalletsInfoGraphProps = {
+type CustomGraphProps = {
   values: GraphC[];
+  qtdToShow?: number;
 };
 
-export default function CustomGraph({ values }: WalletsInfoGraphProps) {
+export default function CustomGraph({ values, qtdToShow }: CustomGraphProps) {
   const [containerWidth, setContainerWidth] = useState(0);
-  const lastSix = values.slice(-6);
-  const maxValue = Math.max(...lastSix.map(m => Math.abs(m.value))) || 1;
+  const lastN = values.slice(-(qtdToShow? qtdToShow : 6));
+  const maxValue = Math.max(...lastN.map(m => Math.abs(m.value))) || 1;
 
   const maxHeight = 150;
   const zeroY = maxHeight / 2;
@@ -26,11 +27,11 @@ export default function CustomGraph({ values }: WalletsInfoGraphProps) {
     setContainerWidth(e.nativeEvent.layout.width);
   };
 
-  const barWidth = lastSix.length > 0 ? containerWidth / (lastSix.length * 1.5) : 0;
+  const barWidth = lastN.length > 0 ? containerWidth / (lastN.length * 1.5) : 0;
   const spacing = barWidth * 0.5;
-  const svgWidth = lastSix.length * (barWidth + spacing);
+  const svgWidth = lastN.length * (barWidth + spacing);
 
-  const points = lastSix.map((month, i) => {
+  const points = lastN.map((month, i) => {
     const valueRatio = Math.abs(month.value) / maxValue;
     const barHeight = valueRatio * (maxHeight / 2);
     const x = (1 / 6 + i) * (barWidth + spacing) + barWidth / 2;
@@ -67,7 +68,7 @@ export default function CustomGraph({ values }: WalletsInfoGraphProps) {
         <View>
           <Svg height={maxHeight} width={svgWidth}>
 
-            {lastSix.map((month, i) => {
+            {lastN.map((month, i) => {
               const valueRatio = Math.abs(month.value) / maxValue;
               const barHeight = valueRatio * (maxHeight / 2);
 
@@ -97,7 +98,7 @@ export default function CustomGraph({ values }: WalletsInfoGraphProps) {
           </Svg>
 
           <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-            {lastSix.map((m, i) => (
+            {lastN.map((m, i) => (
               <ThemedText
                 type="default"
                 key={i}

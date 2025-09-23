@@ -18,19 +18,6 @@ export default function WalletCarousel({ wallet }: WalletCarousel) {
       <CustomCarousel
         items={[
           {
-            tag: "●",
-            content: (
-              <ThemedView style={{ backgroundColor: 'transparent' }}>
-                {wallet && wallet.history?.length > 0 ? (
-                  <CustomGraph values={wallet.history} />
-                ) : (
-                  <ThemedText>Gráfico indisponível por falta de dado</ThemedText>
-                )}
-              </ThemedView>
-            ),
-          },
-          {
-            tag: "●",
             content: (
               <ThemedView style={{ backgroundColor: 'transparent' }}>
                 {wallet && wallet.history?.length > 0 ? (

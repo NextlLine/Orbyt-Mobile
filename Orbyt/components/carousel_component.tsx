@@ -14,7 +14,7 @@ import { ThemedText } from "./themed-text";
 import { useOrbytColor } from "@/assets/colors/defaultColors";
 
 interface CarouselItem {
-  tag: string;
+  tag?: string;
   content: React.ReactNode;
 }
 
@@ -131,7 +131,7 @@ export class CustomCarousel extends React.Component<
                       activeIndex === i && [styles.activeTag, { color:  this.props.activeTagColor}],
                     ]}
                   >
-                    {it.tag}
+                    {(it.tag ? it.tag : "●")}
                   </ThemedText>
                 </TouchableOpacity>
               ))}
