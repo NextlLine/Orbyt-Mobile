@@ -1,10 +1,9 @@
-// HomeScreen.tsx
 import { Dimensions, StyleSheet } from "react-native";
 import ParallaxScrollView, { SCREEN_SIZE } from "@/components/parallax-scroll-view";
 import { ThemedView } from "@/components/themed-view";
 import React, { useState } from "react";
 import WalletsInfo from "@/components/home/wallet_show_component";
-import { useOrbytColor } from "@/assets/colors/defaultColors";
+import { useOrbytColor } from "@/hooks/defaultColors";
 import { ThemedText } from "@/components/themed-text";
 import WalletCarousel from "@/components/home/wallet_carousel_component";
 import { mockUser } from "@/model/mockUser";

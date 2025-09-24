@@ -1,5 +1,5 @@
 import React from 'react';
-import { useOrbytColor } from '@/assets/colors/defaultColors';
+import { useOrbytColor } from '@/hooks/defaultColors';
 import { ThemedView } from '../themed-view';
 import { CustomCarousel } from '../carousel_component';
 import CustomGraph from '../customGraph';

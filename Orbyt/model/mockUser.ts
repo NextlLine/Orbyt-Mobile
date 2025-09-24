@@ -20,7 +20,6 @@ export const mockUser: User = {
         { label: "4-2025", value: 11000 },
         { label: "5-2025", value: -11000 },
         { label: "6-2025", value: 780 },
-
       ],
     },
     {

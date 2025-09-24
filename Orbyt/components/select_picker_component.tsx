@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SCREEN_SIZE } from "./parallax-scroll-view";
-import { Wallet } from "@/app/(tabs)/home";
-import { useOrbytColor } from "@/assets/colors/defaultColors";
+import { useOrbytColor } from "@/hooks/defaultColors";
+import { Wallet } from "@/model/mockModels";
 
 interface CustomSelectProps {
   style?: ViewStyle;
@@ -38,7 +38,7 @@ export function CustomSelect({ children, data, onSelect }: CustomSelectProps) {
       onPress={() => handleSelect(index)}
     >
       <Text style={[styles.optionText, { color: textColor}]}>
-        {item.name} — {item.currency.font} {item.total.toFixed(2)}
+        {item.name} — {item.currency.symbol} {item.total.toFixed(2)}
       </Text>
     </TouchableOpacity>
   );

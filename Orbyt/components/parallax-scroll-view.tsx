@@ -13,7 +13,7 @@ import { ThemedText } from './themed-text';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import React, { PropsWithChildren } from 'react';
 import { opacity } from 'react-native-reanimated/lib/typescript/Colors';
-import { useOrbytColor } from '@/assets/colors/defaultColors';
+import { useOrbytColor } from '@/hooks/defaultColors';
 
 export const SCREEN_SIZE = Dimensions.get('window');
 const IMAGE_SIZE = SCREEN_SIZE.height * 0.15;

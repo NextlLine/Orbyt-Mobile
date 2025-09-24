@@ -4,7 +4,7 @@ import { ThemedView } from '../themed-view';
 import { ThemedText } from '../themed-text';
 import Icon from 'react-native-vector-icons/Feather';
 import { CustomSelect } from '../select_picker_component';
-import { useOrbytColor } from '@/assets/colors/defaultColors';
+import { useOrbytColor } from '@/hooks/defaultColors';
 import { Wallet } from '@/model/mockModels';
 
 type WalletsInfoProps = {
