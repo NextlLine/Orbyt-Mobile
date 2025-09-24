@@ -41,7 +41,7 @@ export const mockUser: User = {
       outcoming: 300,
       currency: {
         id: "cur-2",
-        symbol: "₿",
+        symbol: "$",
         code: "BTC",
       },
       history: generateMockHistory(8), 

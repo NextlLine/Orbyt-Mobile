@@ -12,6 +12,8 @@ const { width } = Dimensions.get("window");
 export default function HomeScreen() {
   const [index, setIndex] = useState(0);
   const user = mockUser;
+  const borderColorItem = useOrbytColor('borderItem')
+  const backgroundItem = useOrbytColor('backgroundItem')
 
   return (
     <ParallaxScrollView
@@ -19,8 +21,7 @@ export default function HomeScreen() {
     >
       <ThemedView
         style={[
-          styles.container,
-          { backgroundColor: useOrbytColor("backgroundItem") },
+          styles.container, { borderColor: borderColorItem, backgroundColor: backgroundItem },
         ]}
       >
         <WalletsInfo
@@ -32,7 +33,7 @@ export default function HomeScreen() {
 
       <ThemedView
         style={[
-          styles.container, { backgroundColor: useOrbytColor("backgroundItem") },
+          styles.container, { borderColor: borderColorItem, backgroundColor: backgroundItem },
         ]}
       >
         <WalletCarousel wallet={user.wallets[index]} />
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 8,
     borderRadius: 10,
-    // borderWidth: 0.5,
+    borderWidth:1,
     maxHeight: 300
   },
 });

@@ -24,6 +24,7 @@ export const orbytColors = [
     new CustomColors('activeTag', "rgba(255, 255, 255, 1)", "rgba(0, 0, 0, 1)"),
     new CustomColors('primary', "rgba(255, 255, 255, 1)", "rgba(0, 0, 0, 1)"),
     new CustomColors('secondary', "rgba(200, 200, 200, 1)", "rgba(83, 83, 83, 1)"),
+    new CustomColors('borderItem', 'rgba(71, 71, 71, 1)', 'rgba(214, 214, 214, 1)'),
 
 ] as const;
 
