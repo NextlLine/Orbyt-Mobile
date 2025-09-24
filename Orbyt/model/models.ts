@@ -1,11 +1,13 @@
 export type Currency = {
   id: string;
-  symbol: string;
+  symbol: string; 
+  code: string;    
 };
 
-export type GraphC = {
-  label: string; 
-  value: number;
+export type WalletHistory = {
+  id: string;
+  date: Date;       
+  value: number;   
 };
 
 export type Wallet = {
@@ -15,7 +17,7 @@ export type Wallet = {
   incoming: number;
   outcoming: number;
   currency: Currency;
-  history: GraphC[];
+  history: WalletHistory[];
 };
 
 export type User = {

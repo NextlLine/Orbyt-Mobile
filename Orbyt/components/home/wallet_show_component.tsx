@@ -5,7 +5,7 @@ import { ThemedText } from '../themed-text';
 import Icon from 'react-native-vector-icons/Feather';
 import { CustomSelect } from '../select_picker_component';
 import { useOrbytColor } from '@/hooks/defaultColors';
-import { Wallet } from '@/model/mockModels';
+import { Wallet } from '@/model/models';
 
 type WalletsInfoProps = {
   wallets: Wallet[];
@@ -42,7 +42,7 @@ export default function WalletsInfo({ wallets, index, onChangeWallet }: WalletsI
         </ThemedText>
       </ThemedView>
     </ThemedView>
-
+ 
   );
 }
 

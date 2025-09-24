@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { View, LayoutChangeEvent } from 'react-native';
 import Svg, { Rect, Path, Circle, Text as SvgText } from 'react-native-svg';
 import { useOrbytColor } from '@/hooks/defaultColors';
-import { GraphC } from '@/model/mockModels';
 import { ThemedText } from './themed-text';
 import formatData from '@/util/formatData';
 import { formatCompactNumber } from '@/util/formatNumber';
 import { getHeaderTitle } from '@react-navigation/elements';
+import { WalletHistory } from '@/model/models';
 
 type CustomGraphProps = {
-  values: GraphC[];
+  values: WalletHistory[];
   qtdToShow?: number;
   showLabel?: boolean;
 };
@@ -27,8 +27,8 @@ export default function CustomGraph({
 
   const colorW = useOrbytColor('gainGraph');
   const colorL = useOrbytColor('looseGraph');
-  const colorLine = useOrbytColor('secondary');
-  const colorText = useOrbytColor('primary');
+  const colorLine = useOrbytColor('primary');
+  const colorText = useOrbytColor('secondary');
 
   const handleLayout = (e: LayoutChangeEvent) => {
     setContainerWidth(e.nativeEvent.layout.width);
@@ -150,7 +150,7 @@ export default function CustomGraph({
                     fontSize: 10,
                   }}
                 >
-                  {formatData(data.data.label)}
+                  {formatData(data.data.date)}
                 </ThemedText>
               ))}
             </View>

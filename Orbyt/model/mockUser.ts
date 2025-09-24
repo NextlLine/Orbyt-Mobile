@@ -1,4 +1,20 @@
-import { User } from "./mockModels";
+import { User, WalletHistory } from "./models";
+
+function generateMockHistory(months: number = 6): WalletHistory[] {
+  const now = new Date();
+  const data: WalletHistory[] = [];
+
+  for (let i = 0; i < months; i++) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    data.unshift({
+      id: `hist-${i}`,
+      date: d,
+      value: Math.floor(Math.random() * 2000 - 1000), 
+    });
+  }
+
+  return data;
+}
 
 export const mockUser: User = {
   id: "user-1",
@@ -10,47 +26,37 @@ export const mockUser: User = {
       total: 10569.3,
       incoming: 500,
       outcoming: 20,
-      currency: { id: "USD", symbol: "$" },
-      history: [
-        { label: "11-2024", value: 1220 },
-        { label: "12-2024", value: 1980 },
-        { label: "1-2025", value: 1220 },
-        { label: "2-2025", value: 1980 },
-        { label: "3-2025", value: -1500 },
-        { label: "4-2025", value: 11000 },
-        { label: "5-2025", value: -11000 },
-        { label: "6-2025", value: 780 },
-      ],
+      currency: {
+        id: "cur-1",
+        symbol: "$",
+        code: "USD",
+      },
+      history: generateMockHistory(12), 
     },
     {
       id: "wallet-2",
-      name: "Pig",
-      total: 2550,
-      incoming: 0,
-      outcoming: 0,
-      currency: { id: "BRL", symbol: "R$" },
-      history: [
-        { label: "11-2024", value: 0 },
-        { label: "12-2024", value: 720 },
-        { label: "1-2025", value: 1250 },
-        { label: "2-2025", value: -300 },
-        { label: "3-2025", value: 1000 },
-        { label: "4-2025", value: 1000 },
-        { label: "5-2025", value: 1220 },
-        { label: "6-2025", value: 1980 },
-        { label: "7-2025", value: -1500 },
-        { label: "8-2025", value: 780 },
-        { label: "9-2025", value: -1500 },
-        { label: "10-2025", value: 780 },
-      ],
+      name: "Crypto Bag",
+      total: 2500.75,
+      incoming: 1000,
+      outcoming: 300,
+      currency: {
+        id: "cur-2",
+        symbol: "₿",
+        code: "BTC",
+      },
+      history: generateMockHistory(8), 
     },
-        {
+    {
       id: "wallet-3",
       name: "Rest",
       total: 0,
       incoming: 0,
       outcoming: 0,
-      currency: { id: "BRL", symbol: "R$" },
+      currency: {
+        id: "cur-3",
+        symbol: "R$",
+        code: "BRL",
+      },
       history: [],
     },
   ],
