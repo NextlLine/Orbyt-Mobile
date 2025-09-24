@@ -1,13 +1,10 @@
-// WalletsInfoGraph.tsx
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
 import { useOrbytColor } from '@/assets/colors/defaultColors';
-import { SCREEN_SIZE } from '../parallax-scroll-view';
-import { ThemedText } from '../themed-text';
 import { ThemedView } from '../themed-view';
 import { CustomCarousel } from '../carousel_component';
 import CustomGraph from '../customGraph';
 import { Wallet } from '@/model/mockModels';
+import { View } from 'react-native';
 
 type WalletCarousel = {
   wallet: Wallet;
@@ -15,19 +12,27 @@ type WalletCarousel = {
 
 export default function WalletCarousel({ wallet }: WalletCarousel) {
   return (
-      <CustomCarousel
-        items={[
+    <View   style={{ width: '100%', height: '100%' }}>
+    <CustomCarousel
+      items={[
+        {
+          content: (
+            <ThemedView style={{ backgroundColor: 'transparent' }}>
+              <CustomGraph values={wallet.history} />
+            </ThemedView>
+          ),
+        },
           {
-            content: (
-              <ThemedView style={{ backgroundColor: 'transparent' }}>
-                  <CustomGraph values={wallet.history} />
-              </ThemedView>
-            ),
-          },
-        ]}
-        style={{ width: '100%', height: '100%' }}
-        spacing={0}
-        activeTagColor={useOrbytColor('activeTag')}
-      />
+          content: (
+            <ThemedView style={{ backgroundColor: 'transparent' }}>
+              <CustomGraph values={wallet.history} qtdToShow={6}/>
+            </ThemedView>
+          ),
+        },
+      ]}
+      style={{ width: '100%', height: '100%' }}
+      activeTagColor={useOrbytColor('activeTag')}
+    />
+    </View>
   );
 }

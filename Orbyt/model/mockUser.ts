@@ -17,8 +17,8 @@ export const mockUser: User = {
         { label: "1-2025", value: 1220 },
         { label: "2-2025", value: 1980 },
         { label: "3-2025", value: -1500 },
-        { label: "4-2025", value: 780 },
-        { label: "5-2025", value: -1500 },
+        { label: "4-2025", value: 11000 },
+        { label: "5-2025", value: -11000 },
         { label: "6-2025", value: 780 },
 
       ],
@@ -37,7 +37,12 @@ export const mockUser: User = {
         { label: "2-2025", value: -300 },
         { label: "3-2025", value: 1000 },
         { label: "4-2025", value: 1000 },
-     
+        { label: "5-2025", value: 1220 },
+        { label: "6-2025", value: 1980 },
+        { label: "7-2025", value: -1500 },
+        { label: "8-2025", value: 780 },
+        { label: "9-2025", value: -1500 },
+        { label: "10-2025", value: 780 },
       ],
     },
         {

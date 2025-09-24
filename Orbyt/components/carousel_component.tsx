@@ -20,7 +20,7 @@ interface CarouselItem {
 
 interface CustomCarouselProps {
   items: CarouselItem[];
-  spacing?: number;
+
   initialIndex?: number;
   activeTagColor: string;
   style?: ViewStyle;
@@ -44,12 +44,11 @@ export class CustomCarousel extends React.Component<
 
   handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const { contentOffset } = event.nativeEvent;
-    const spacing = this.props.spacing ?? 0;
     const { containerWidth } = this.state;
 
     if (containerWidth <= 0) return;
 
-    const index = Math.round(contentOffset.x / (containerWidth + spacing));
+    const index = Math.round(contentOffset.x / (containerWidth));
     if (index !== this.state.activeIndex) {
       this.setState({ activeIndex: index });
     }
@@ -61,8 +60,7 @@ export class CustomCarousel extends React.Component<
       this.setState({ containerWidth: width }, () => {
         const { activeIndex, containerWidth } = this.state;
         if (activeIndex > 0 && this.scrollRef.current) {
-          const spacing = this.props.spacing ?? 0;
-          const x = activeIndex * (containerWidth + spacing);
+          const x = activeIndex * containerWidth ;
           this.scrollRef.current.scrollTo({ x, animated: false });
         }
       });
@@ -70,16 +68,15 @@ export class CustomCarousel extends React.Component<
   };
 
   scrollToIndex = (index: number) => {
-    const spacing = this.props.spacing ?? 0;
     const { containerWidth } = this.state;
     if (!this.scrollRef.current || containerWidth <= 0) return;
-    const x = index * (containerWidth + spacing);
+    const x = index * containerWidth;
     this.scrollRef.current.scrollTo({ x, animated: true });
     this.setState({ activeIndex: index });
   };
 
   render() {
-    const { items, spacing = 0 } = this.props;
+    const { items } = this.props;
     const { activeIndex, containerWidth } = this.state;
 
     return (
@@ -95,7 +92,7 @@ export class CustomCarousel extends React.Component<
               showsHorizontalScrollIndicator={false}
               pagingEnabled={false}
               decelerationRate="fast"
-              snapToInterval={containerWidth + spacing}
+              snapToInterval={containerWidth}
               snapToAlignment="start"
               onScroll={this.handleScroll}
               scrollEventThrottle={16}
@@ -109,7 +106,6 @@ export class CustomCarousel extends React.Component<
                   key={i}
                   style={{
                     width: containerWidth,
-                    marginHorizontal: spacing / 2,
                     backgroundColor: "transparent",
                   }}
                 >
@@ -118,7 +114,7 @@ export class CustomCarousel extends React.Component<
               ))}
             </ScrollView>
 
-                 <View style={styles.tagContainer}>
+            <View style={styles.tagContainer}>
               {items.map((it, i) => (
                 <TouchableOpacity
                   key={i}
@@ -128,7 +124,7 @@ export class CustomCarousel extends React.Component<
                   <ThemedText
                     style={[
                       styles.tagText,
-                      activeIndex === i && [styles.activeTag, { color:  this.props.activeTagColor}],
+                      activeIndex === i && [styles.activeTag, { color: this.props.activeTagColor }],
                     ]}
                   >
                     {(it.tag ? it.tag : "●")}
@@ -149,7 +145,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexWrap: "wrap",
     marginTop: 10,
-    backgroundColor: "transparent", 
+    backgroundColor: "transparent",
   },
   tagText: {
     marginHorizontal: 6,

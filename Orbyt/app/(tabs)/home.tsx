@@ -33,7 +33,7 @@ export default function HomeScreen() {
 
       <ThemedView
         style={[
-          styles.container,{backgroundColor: useOrbytColor("backgroundItem")},
+          styles.container, { backgroundColor: useOrbytColor("backgroundItem") },
         ]}
       >
         <WalletCarousel wallet={user.wallets[index]} />
@@ -46,16 +46,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 8,
-    gap: 8,
     borderRadius: 10,
-    alignItems: "center",
-    // borderWidth:3,
-    // maxHeight:300,
-  },
-  reactLogo: {
-    width: width * 0.3,
-    aspectRatio: 1,
-    resizeMode: "contain",
-    alignSelf: "center",
+    // borderWidth: 0.5,
+    maxHeight: 300
   },
 });
