@@ -11,7 +11,6 @@ import {
   ViewStyle,
 } from "react-native";
 import { ThemedText } from "./themed-text";
-import { useOrbytColor } from "@/hooks/defaultColors";
 
 interface CarouselItem {
   tag?: string;

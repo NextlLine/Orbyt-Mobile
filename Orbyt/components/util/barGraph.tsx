@@ -2,28 +2,28 @@ import React, { useState } from 'react';
 import { View, LayoutChangeEvent } from 'react-native';
 import Svg, { Rect, Path, Circle, Text as SvgText } from 'react-native-svg';
 import { useOrbytColor } from '@/hooks/defaultColors';
-import { ThemedText } from './themed-text';
 import formatData from '@/util/formatData';
 import { formatCompactNumber } from '@/util/formatNumber';
 import { getHeaderTitle } from '@react-navigation/elements';
-import { WalletHistory } from '@/model/models';
+import { ThemedText } from './themed-text';
+import { MonthReport } from '@/model/models';
 
-type CustomGraphProps = {
-  values: WalletHistory[];
+type CustomBarGraphProps = {
+  values: MonthReport[];
   qtdToShow?: number;
   showLabel?: boolean;
 };
 
-export default function CustomGraph({
+export default function CustomBarGraph({
   values,
-  qtdToShow = 8,
+  qtdToShow = 12,
   showLabel = true
-}: CustomGraphProps) {
+}: CustomBarGraphProps) {
   const [containerWidth, setContainerWidth] = useState(0);
   const [containerHeight, setContainerHeight] = useState(0);
 
   const lastN = values.slice(-qtdToShow);
-  const maxValue = Math.max(...lastN.map(m => Math.abs(m.value))) || 1;
+  const maxValue = Math.max(...lastN.map(m => Math.abs(m.monthBalance))) || 1;
 
   const colorW = useOrbytColor('gainGraph');
   const colorL = useOrbytColor('looseGraph');
@@ -44,12 +44,12 @@ export default function CustomGraph({
   const svgWidth = containerWidth;
 
   const graphData = lastN.map((data, i) => {
-    const valueRatio = Math.abs(data.value) / maxValue;
+    const valueRatio = Math.abs(data.monthBalance) / maxValue;
     const barHeight = 0.8 * (valueRatio * (graphHeight / 2));
     const x = (1 / 6 + i) * (barWidth + spacing) + barWidth / 2;
     const rectX = (1 / 6 + i) * (barWidth + spacing);
-    const y = data.value >= 0 ? zeroY - barHeight : zeroY + barHeight;
-    const rectY = data.value >= 0 ? zeroY - barHeight : zeroY;
+    const y = data.monthBalance >= 0 ? zeroY - barHeight : zeroY + barHeight;
+    const rectY = data.monthBalance >= 0 ? zeroY - barHeight : zeroY;
 
     return {
       data,
@@ -59,9 +59,9 @@ export default function CustomGraph({
       rectY,
       rectWidth: barWidth,
       rectHeight: barHeight,
-      value: data.value,
-      color: data.value >= 0 ? colorW : colorL,
-      textY: data.value >= 0 ? y - 8 : y + 14
+      value: data.monthBalance,
+      color: data.monthBalance >= 0 ? colorW : colorL,
+      textY: data.monthBalance >= 0 ? y - 8 : y + 14
     };
   });
 
@@ -150,7 +150,7 @@ export default function CustomGraph({
                     fontSize: 10,
                   }}
                 >
-                  {formatData(data.data.date)}
+                  {data.data.month}/{data.data.year % 100}
                 </ThemedText>
               ))}
             </View>

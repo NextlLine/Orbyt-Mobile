@@ -1,63 +1,76 @@
-import { User, WalletHistory } from "./models";
-
-function generateMockHistory(months: number = 6): WalletHistory[] {
-  const now = new Date();
-  const data: WalletHistory[] = [];
-
-  for (let i = 0; i < months; i++) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    data.unshift({
-      id: `hist-${i}`,
-      date: d,
-      value: Math.floor(Math.random() * 2000 - 1000), 
-    });
-  }
-
-  return data;
-}
+import { InvestmentCategory, TransactionType, User } from "./models";
 
 export const mockUser: User = {
-  id: "user-1",
-  name: "Jairo",
-  wallets: [
+  id: "1",
+  name: "H4t3d",
+  email: "h4t3d@email.com",
+  financeWallets: [
     {
-      id: "wallet-1",
-      name: "10K Target",
-      total: 10569.3,
-      incoming: 500,
-      outcoming: 20,
+      id: "1",
+      name: "10k up",
+      balance: 5000,
       currency: {
-        id: "cur-1",
+        id: "1",
         symbol: "$",
-        code: "USD",
+        code: "USD"
       },
-      history: generateMockHistory(12), 
-    },
-    {
-      id: "wallet-2",
-      name: "Crypto Bag",
-      total: 2500.75,
-      incoming: 1000,
-      outcoming: 300,
-      currency: {
-        id: "cur-2",
-        symbol: "$",
-        code: "BTC",
-      },
-      history: generateMockHistory(8), 
-    },
-    {
-      id: "wallet-3",
-      name: "Rest",
-      total: 0,
-      incoming: 0,
-      outcoming: 0,
-      currency: {
-        id: "cur-3",
-        symbol: "R$",
-        code: "BRL",
-      },
-      history: [],
-    },
+      transactions: [
+        {
+          id: "1",
+          description: "Sell car",
+          amount: 3000,
+          date: new Date(),
+          type: TransactionType.OTHER,
+          status: "received"
+        },
+        {
+          id: "1",
+          description: "Salary",
+          amount: 2000,
+          date: new Date(),
+          type: TransactionType.OTHER,
+          status: "received"
+        }
+      ],
+      monthReport: [
+        {
+          id: "1",
+          month: 6,
+          year: 2025,
+          monthBalance: 2000
+        },
+         {
+          id: "2",
+          month: 7,
+          year: 2025,
+          monthBalance: 5000
+        },
+         {
+          id: "3",
+          month: 8,
+          year: 2025,
+          monthBalance: 3500
+        },
+         {
+          id: "4",
+          month: 9,
+          year: 2025,
+          monthBalance: -1250
+        },
+         {
+          id: "5",
+          month: 10,
+          year: 2025,
+          monthBalance: 5000
+        },
+      ]
+    }
   ],
+  investmentWallets: [],
+  preferences: {
+    defaultCurrency: "",
+    language: "",
+    dateFormat: "",
+    financialYearStart: 0
+  }
 };

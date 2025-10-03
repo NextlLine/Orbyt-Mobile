@@ -9,14 +9,14 @@ import {
   FlatList,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SCREEN_SIZE } from "./parallax-scroll-view";
 import { useOrbytColor } from "@/hooks/defaultColors";
-import { Wallet } from "@/model/models";
+import { FinanceWallet } from "@/model/models";
+import { SCREEN_SIZE } from "./util/parallax-scroll-view";
 
 interface CustomSelectProps {
   style?: ViewStyle;
   children: React.ReactNode;
-  data: Wallet[];
+  data: FinanceWallet[];
   onSelect: (i: number) => void;
 }
 
@@ -32,13 +32,13 @@ export function CustomSelect({ children, data, onSelect }: CustomSelectProps) {
     toggleModal();
   };
 
-  const renderOption = ({ item, index }: { item: Wallet; index: number }) => (
+  const renderOption = ({ item, index }: { item: FinanceWallet; index: number }) => (
     <TouchableOpacity
       style={styles.optionButton}
       onPress={() => handleSelect(index)}
     >
       <Text style={[styles.optionText, { color: textColor}]}>
-        {item.name} — {item.currency.symbol} {item.total.toFixed(2)}
+        {item.name} — {item.currency.symbol} {item.balance.toFixed(2)}
       </Text>
     </TouchableOpacity>
   );

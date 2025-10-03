@@ -1,14 +1,14 @@
 import React from 'react';
 import { Alert, Button, GestureResponderEvent, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { ThemedView } from '../themed-view';
-import { ThemedText } from '../themed-text';
 import Icon from 'react-native-vector-icons/Feather';
-import { CustomSelect } from '../select_picker_component';
 import { useOrbytColor } from '@/hooks/defaultColors';
-import { Wallet } from '@/model/models';
+import { FinanceWallet } from '@/model/models';
+import { ThemedText } from '../util/themed-text';
+import { ThemedView } from '../util/themed-view';
+import { CustomSelect } from '../select_picker_component';
 
 type WalletsInfoProps = {
-  wallets: Wallet[];
+  wallets: FinanceWallet[];
   index: number;
   onChangeWallet: (i: number) => void;
 };
@@ -26,9 +26,9 @@ export default function WalletsInfo({ wallets, index, onChangeWallet }: WalletsI
 
       <ThemedView style={styles.subsubcontainer}>
         <ThemedText type="default">
-          {wallets[index].currency.symbol} {wallets[index].total.toFixed(2)}
+          {wallets[index].currency.symbol} {wallets[index].balance.toFixed(2)}
         </ThemedText>
-
+{/* 
         <ThemedText style={{ color: useOrbytColor('gain') }}>
           {wallets[index].incoming.toFixed(2)}
           <Icon name="trending-up" size={20} color={useOrbytColor('gain')} />
@@ -39,7 +39,7 @@ export default function WalletsInfo({ wallets, index, onChangeWallet }: WalletsI
           {wallets[index].outcoming.toFixed(2)}
           <Icon name="trending-down" size={20} color={useOrbytColor('loose')} />
 
-        </ThemedText>
+        </ThemedText> */}
       </ThemedView>
     </ThemedView>
  
