@@ -3,10 +3,10 @@ import ParallaxScrollView from "@/components/util/parallax-scroll-view";
 import { ThemedView } from "@/components/util/themed-view";
 import React, { useState } from "react";
 import { useOrbytColor } from "@/hooks/defaultColors";
-import FinanceCarousel from "@/components/finance/finance_carousel_component";
+import FinanceCarousel from "@/components/finance/carousel_component";
 import { mockUser } from "@/model/mockUser";
 import CustomBarGraph from "@/components/util/barGraph";
-import WalletsInfo from "@/components/home/wallet_show_component";
+import WalletsInfo from "@/components/news/wallet_info";
 
 export default function Finance() {
   const [index, setIndex] = useState(0);
@@ -27,6 +27,7 @@ export default function Finance() {
             index={index}
             onChangeWallet={(i) => setIndex(i)}
           />
+          
         </ThemedView>
 
         <ThemedView

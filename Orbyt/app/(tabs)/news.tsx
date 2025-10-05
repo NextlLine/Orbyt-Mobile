@@ -6,10 +6,10 @@ import { mockUser } from "@/model/mockUser";
 import { ThemedText } from "@/components/util/themed-text";
 import CustomBarGraph from "@/components/util/barGraph";
 import { ThemedView } from "@/components/util/themed-view";
-import FinanceCarousel from "@/components/finance/finance_carousel_component";
-import WalletsInfo from "@/components/home/wallet_show_component";
+import FinanceCarousel from "@/components/finance/carousel_component";
+import WalletsInfo from "@/components/news/wallet_info";
 
-export default function HomeScreen() {
+export default function NewsScreen() {
   const [index, setIndex] = useState(0);
   const user = mockUser;
   const borderColorItem = useOrbytColor('borderItem')
@@ -19,7 +19,7 @@ export default function HomeScreen() {
     <ParallaxScrollView >
       <ThemedText type="title">Hello, {user.name}!</ThemedText>
 
-      <ThemedView
+      {/* <ThemedView
         style={[
           styles.container, { borderColor: borderColorItem, backgroundColor: backgroundItem },
         ]}
@@ -29,7 +29,7 @@ export default function HomeScreen() {
           index={index}
           onChangeWallet={(i) => setIndex(i)}
         />
-      </ThemedView>
+      </ThemedView> */}
 
     </ParallaxScrollView>
   );

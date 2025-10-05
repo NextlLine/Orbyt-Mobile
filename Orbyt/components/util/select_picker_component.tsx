@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useOrbytColor } from "@/hooks/defaultColors";
 import { FinanceWallet } from "@/model/models";
-import { SCREEN_SIZE } from "./util/parallax-scroll-view";
+import { SCREEN_SIZE } from "./parallax-scroll-view";
 
 interface CustomSelectProps {
   style?: ViewStyle;

@@ -5,7 +5,7 @@ import { useOrbytColor } from '@/hooks/defaultColors';
 import { FinanceWallet } from '@/model/models';
 import { ThemedText } from '../util/themed-text';
 import { ThemedView } from '../util/themed-view';
-import { CustomSelect } from '../select_picker_component';
+import { CustomSelect } from '../util/select_picker_component';
 
 type WalletsInfoProps = {
   wallets: FinanceWallet[];

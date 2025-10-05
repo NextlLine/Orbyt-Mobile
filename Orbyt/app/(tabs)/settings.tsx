@@ -4,7 +4,7 @@ import { ThemedView } from "@/components/util/themed-view";
 import React, { useState } from "react";
 import AccountsInfo from "@/components/wallet/wallet_show_component";
 import { useOrbytColor } from "@/hooks/defaultColors";
-import FinanceCarousel from "@/components/finance/finance_carousel_component";
+import FinanceCarousel from "@/components/finance/carousel_component";
 import { mockUser } from "@/model/mockUser";
 import WalletTransactions from "@/components/util/transaction_history";
 import { ThemedText } from "@/components/util/themed-text";
