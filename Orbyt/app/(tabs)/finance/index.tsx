@@ -4,7 +4,7 @@ import { ThemedView } from "@/components/util/themed-view";
 import React, { useCallback, useRef } from "react";
 import { useOrbytColor } from "@/hooks/defaultColors";
 import CustomBarGraph from "@/components/util/barGraph";
-import WalletsInfo from "@/components/news/wallet_info";
+import WalletsInfo from "@/components/finance/wallet_info";
 import { useFocusEffect } from "@react-navigation/native";
 import { FinanceInteractor } from "./_finance.interactor";
 import { observer } from "mobx-react-lite";

@@ -25,24 +25,11 @@ export default function WalletsInfo({ wallets, index, onChangeWallet }: WalletsI
       </CustomSelect>
 
       <ThemedView style={styles.subsubcontainer}>
-        <ThemedText type="default">
-          {wallets[index].currency.symbol} {wallets[index].balance.toFixed(2)}
-        </ThemedText>
-{/* 
-        <ThemedText style={{ color: useOrbytColor('gain') }}>
-          {wallets[index].incoming.toFixed(2)}
-          <Icon name="trending-up" size={20} color={useOrbytColor('gain')} />
-
-        </ThemedText>
-
-        <ThemedText style={{ color: useOrbytColor('loose') }}>
-          {wallets[index].outcoming.toFixed(2)}
-          <Icon name="trending-down" size={20} color={useOrbytColor('loose')} />
-
-        </ThemedText> */}
+         <ThemedText type="default">
+          {wallets[index].currency?.symbol} {wallets[index].balance.toFixed(2)}
+        </ThemedText> 
       </ThemedView>
     </ThemedView>
- 
   );
 }
 
