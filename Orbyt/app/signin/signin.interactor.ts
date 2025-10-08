@@ -12,7 +12,6 @@ export class SignInInteractor {
     if (err) return this.presenter.error(err);
 
     this.entity.loading = true;
-
     try {
       const response = await fetch(`${env.BASE_URL}/auth/signin`, {
         method: 'POST',
@@ -25,13 +24,22 @@ export class SignInInteractor {
       if (!data.acces_taken) throw new Error('Token não retornado pela API.');
 
       await AsyncStorage.setItem('acces_taken', data.acces_taken);
-      return data.acces_taken; 
+      return data.acces_taken;
     } catch (e: unknown) {
       if (e instanceof Error) this.presenter.error(e.message);
       else this.presenter.error('Ocorreu um erro desconhecido.');
     } finally {
       this.entity.loading = false;
     }
+  }
+
+  async loginWithStored(email: string) {
+    const password = await AsyncStorage.getItem(`pw_${email}`);
+    if (!password) return null;
+
+    this.entity.email = email;
+    this.entity.password = password;
+    return await this.onSubmit();
   }
 
   validate(email: string, password: string) {

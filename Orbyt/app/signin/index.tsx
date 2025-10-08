@@ -1,14 +1,16 @@
-import { observer } from "mobx-react-lite";
-import { useOrbytColor } from '@/hooks/defaultColors';
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Platform } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Switch, Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
+import { observer } from 'mobx-react-lite';
+import { useOrbytColor } from '@/hooks/defaultColors';
 import { SignInInteractor } from './signin.interactor';
 
 const interactor = new SignInInteractor();
 
 export default observer(function SignInScreen() {
   const router = useRouter();
+  const [remindMe, setRemindMe] = useState(false);
 
   const bgColor = useOrbytColor('background');
   const textColor = useOrbytColor('text');
@@ -19,7 +21,15 @@ export default observer(function SignInScreen() {
 
   const onSubmit = async () => {
     const token = await interactor.onSubmit();
-    if (token) router.replace('/(tabs)/news');
+    if (token) {
+      if (remindMe) {
+        await AsyncStorage.setItem('remind_me', interactor.entity.email);
+      } else {
+        await AsyncStorage.removeItem('remind_me');
+      }
+      await AsyncStorage.setItem('acces_taken', token);
+      router.replace('/(tabs)/news');
+    }
   };
 
   return (
@@ -43,6 +53,11 @@ export default observer(function SignInScreen() {
         style={{ backgroundColor: itemBg, borderColor, borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12, color: textColor }}
       />
 
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
+        <Switch value={remindMe} onValueChange={setRemindMe} />
+        <Text style={{ color: textColor, marginLeft: 8 }}>Lembrar de mim</Text>
+      </View>
+
       <TouchableOpacity
         onPress={onSubmit}
         style={{ backgroundColor: mainColor, borderRadius: 8, padding: 14, alignItems: 'center', opacity: interactor.entity.loading ? 0.7 : 1 }}
@@ -57,13 +72,9 @@ export default observer(function SignInScreen() {
         style={{ marginTop: 16, alignItems: 'center' }}
       >
         <Text style={{ color: textColor }}>
-          Ainda não tem conta?{' '}
-          <Text style={{ fontWeight: '700', textDecorationLine: 'underline'}}>
-            Criar conta
-          </Text>
+          Ainda não tem conta? <Text style={{ fontWeight: '700', textDecorationLine: 'underline'}}>Criar conta</Text>
         </Text>
       </TouchableOpacity>
     </View>
   );
 });
-
