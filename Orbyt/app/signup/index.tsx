@@ -3,7 +3,7 @@ import { useOrbytColor } from '@/hooks/defaultColors';
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
-import { SignUpInteractor } from './signup.interactor';
+import { SignUpInteractor } from './_signup.interactor';
 
 const interactor = new SignUpInteractor();
 
@@ -19,18 +19,18 @@ export default observer(function SignUpScreen() {
 
   const onSubmit = async () => {
     const ok = await interactor.onSubmit();
-    if (ok) router.back(); 
+    if (ok) router.replace('/signin');
   };
 
 
   return (
     <View style={{ flex: 1, backgroundColor: bgColor, justifyContent: 'center', paddingHorizontal: 24, paddingTop: Platform.OS === 'android' ? 24 : 0 }}>
-      <Text style={{ fontSize: 28, fontWeight: '700', color: textColor, marginBottom: 16 }}>Crie sua conta</Text>
+      <Text style={{ fontSize: 28, fontWeight: '700', color: textColor, marginBottom: 16 }}>Create account</Text>
 
       <TextInput
         value={interactor.entity.name}
         onChangeText={text => interactor.entity.name = text}
-        placeholder="Nome"
+        placeholder="Name"
         placeholderTextColor={secondary}
         style={{ backgroundColor: itemBg, borderColor, borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12, color: textColor }}
       />
@@ -55,7 +55,7 @@ export default observer(function SignUpScreen() {
       <TextInput
         value={interactor.entity.password}
         onChangeText={text => interactor.entity.password = text}
-        placeholder="Senha"
+        placeholder="Password"
         secureTextEntry
         placeholderTextColor={secondary}
         style={{ backgroundColor: itemBg, borderColor, borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12, color: textColor }}
@@ -64,7 +64,7 @@ export default observer(function SignUpScreen() {
       <TextInput
         value={interactor.entity.confirmPassword}
         onChangeText={text => interactor.entity.confirmPassword = text}
-        placeholder="Confirme a senha"
+        placeholder="Confirm password"
         secureTextEntry
         placeholderTextColor={secondary}
         style={{ backgroundColor: itemBg, borderColor, borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12, color: textColor }}
@@ -74,7 +74,7 @@ export default observer(function SignUpScreen() {
         onPress={onSubmit}
         style={{ backgroundColor: mainColor, borderRadius: 8, padding: 14, alignItems: 'center', opacity: interactor.entity.loading ? 0.7 : 1 }}
       >
-        <Text style={{ color: '#fff', fontWeight: '600' }}>{interactor.entity.loading ? 'Criando...' : 'Criar conta'}</Text>
+        <Text style={{ color: '#fff', fontWeight: '600' }}>{interactor.entity.loading ? 'Creating...' : 'Create account'}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -82,8 +82,8 @@ export default observer(function SignUpScreen() {
         style={{ marginTop: 16, alignItems: 'center' }}
       >
         <Text style={{ color: textColor }}>
-          Já tem conta?{' '}
-          <Text style={{ fontWeight: '700', textDecorationLine: 'underline' }}>Entrar</Text>
+          Already have an account?{' '}
+          <Text style={{ fontWeight: '700', textDecorationLine: 'underline' }}>Sign in</Text>
         </Text>
       </TouchableOpacity>
     </View>

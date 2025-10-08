@@ -1,7 +1,7 @@
 import env from "@/config/env";
-import { SignInPresenter } from "./signin.presenter";
+import { SignInPresenter } from "./_signin.presenter";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SignInEntity } from "./signin.entity";
+import { SignInEntity } from "./_signin.entity";
 
 export class SignInInteractor {
   presenter = new SignInPresenter();
@@ -20,14 +20,14 @@ export class SignInInteractor {
       });
       const data = await response.json();
 
-      if (!response.ok) throw new Error(data?.message || 'Erro ao fazer login.');
-      if (!data.acces_taken) throw new Error('Token não retornado pela API.');
+      if (!response.ok) throw new Error(data?.message || 'Error trying to signin.');
+      if (!data.acces_taken) throw new Error('Token was not delivered by API.');
 
       await AsyncStorage.setItem('acces_taken', data.acces_taken);
       return data.acces_taken;
     } catch (e: unknown) {
       if (e instanceof Error) this.presenter.error(e.message);
-      else this.presenter.error('Ocorreu um erro desconhecido.');
+      else this.presenter.error('Unknown Error.');
     } finally {
       this.entity.loading = false;
     }
@@ -43,10 +43,10 @@ export class SignInInteractor {
   }
 
   validate(email: string, password: string) {
-    if (!email.trim()) return 'Preencha o e-mail.';
+    if (!email.trim()) return 'Missing e-mail.';
     const re = /^\S+@\S+\.\S+$/;
-    if (!re.test(email)) return 'E-mail inválido.';
-    if (password.length < 6) return 'A senha deve ter pelo menos 6 caracteres.';
+    if (!re.test(email)) return 'E-mail not valid.';
+    if (password.length < 6) return 'Password must have at least 6 characters.';
     return null;
   }
 }

@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { observer } from 'mobx-react-lite';
 import { useOrbytColor } from '@/hooks/defaultColors';
-import { SignInInteractor } from './signin.interactor';
+import { SignInInteractor } from './_signin.interactor';
 
 const interactor = new SignInInteractor();
 
@@ -34,7 +34,7 @@ export default observer(function SignInScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: bgColor, justifyContent: 'center', paddingHorizontal: 24, paddingTop: Platform.OS === 'android' ? 24 : 0 }}>
-      <Text style={{ fontSize: 28, fontWeight: '700', color: textColor, marginBottom: 16 }}>Bem-vindo de volta</Text>
+      <Text style={{ fontSize: 28, fontWeight: '700', color: textColor, marginBottom: 16 }}>Welcome back</Text>
 
       <TextInput
         value={interactor.entity.email}
@@ -47,7 +47,7 @@ export default observer(function SignInScreen() {
       <TextInput
         value={interactor.entity.password}
         onChangeText={text => interactor.entity.password = text}
-        placeholder="Senha"
+        placeholder="Password"
         secureTextEntry
         placeholderTextColor={secondary}
         style={{ backgroundColor: itemBg, borderColor, borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12, color: textColor }}
@@ -55,7 +55,7 @@ export default observer(function SignInScreen() {
 
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
         <Switch value={remindMe} onValueChange={setRemindMe} />
-        <Text style={{ color: textColor, marginLeft: 8 }}>Lembrar de mim</Text>
+        <Text style={{ color: textColor, marginLeft: 8 }}>Remind me</Text>
       </View>
 
       <TouchableOpacity
@@ -63,7 +63,7 @@ export default observer(function SignInScreen() {
         style={{ backgroundColor: mainColor, borderRadius: 8, padding: 14, alignItems: 'center', opacity: interactor.entity.loading ? 0.7 : 1 }}
       >
         <Text style={{ color: '#fff', fontWeight: '600' }}>
-          {interactor.entity.loading ? 'Entrando...' : 'Entrar'}
+          {interactor.entity.loading ? 'Loading...' : 'Load'}
         </Text>
       </TouchableOpacity>
 
@@ -72,7 +72,7 @@ export default observer(function SignInScreen() {
         style={{ marginTop: 16, alignItems: 'center' }}
       >
         <Text style={{ color: textColor }}>
-          Ainda não tem conta? <Text style={{ fontWeight: '700', textDecorationLine: 'underline'}}>Criar conta</Text>
+          Have no account? <Text style={{ fontWeight: '700', textDecorationLine: 'underline' }}>Sign up</Text>
         </Text>
       </TouchableOpacity>
     </View>

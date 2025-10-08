@@ -1,6 +1,6 @@
 import env from "@/config/env";
-import { SignUpEntity } from "./signup.entity";
-import { SignUpPresenter } from "./signup.presenter";
+import { SignUpEntity } from "./_signup.entity";
+import { SignUpPresenter } from "./_signup.presenter";
 
 export class SignUpInteractor {
   entity = new SignUpEntity();
@@ -28,7 +28,7 @@ export class SignUpInteractor {
 
       if (!response.ok) {
         const data = await response.json(); 
-        throw new Error(data?.message || 'Erro ao criar conta.');
+        throw new Error(data?.message || 'Error creating account.');
       }
 
 
@@ -43,7 +43,7 @@ export class SignUpInteractor {
       return true; 
     } catch (e: unknown) {
       if (e instanceof Error) this.presenter.error(e.message);
-      else this.presenter.error('Ocorreu um erro desconhecido.');
+      else this.presenter.error('Unknown error.');
       return false; 
     } finally {
       this.entity.loading = false;
@@ -51,13 +51,13 @@ export class SignUpInteractor {
   }
 
   validate() {
-    if (!this.entity.name.trim()) return 'Informe seu nome.';
-    if (!this.entity.doc.trim()) return 'Informe seu CPF.';
-    if (!this.entity.email.trim()) return 'Preencha o e-mail.';
+    if (!this.entity.name.trim()) return 'Missing name.';
+    if (!this.entity.doc.trim()) return 'Missing Doc.';
+    if (!this.entity.email.trim()) return 'Missing e-mail.';
     const re = /^\S+@\S+\.\S+$/;
-    if (!re.test(this.entity.email)) return 'E-mail inválido.';
-    if (this.entity.password.length < 6) return 'A senha deve ter pelo menos 6 caracteres.';
-    if (this.entity.password !== this.entity.confirmPassword) return 'As senhas não coincidem.';
+    if (!re.test(this.entity.email)) return 'E-mail is not valid.';
+    if (this.entity.password.length < 6) return 'Password must have at least 6 characters.';
+    if (this.entity.password !== this.entity.confirmPassword) return 'Passwords are different.';
     return null;
   }
 }

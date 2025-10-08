@@ -3,11 +3,13 @@ import { View, Image, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { SignInInteractor } from './signin/signin.interactor';
+import { SignInInteractor } from './signin/_signin.interactor';
+import { useOrbytColor } from '@/hooks/defaultColors';
 
 export default function AppInitScreen() {
   const router = useRouter();
-  const colorScheme = useColorScheme();
+  const backgroundColor = useOrbytColor('background');
+  const imageColor = useOrbytColor('primary');
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -15,7 +17,7 @@ export default function AppInitScreen() {
         const token = await AsyncStorage.getItem('acces_taken');
         const remindMe = await AsyncStorage.getItem('remind_me');
 
-        await new Promise(resolve => setTimeout(resolve, 1000)); // splash delay
+        await new Promise(resolve => setTimeout(resolve, 1000)); 
 
         if (token && remindMe) {
           router.replace('/(tabs)/news');
@@ -40,12 +42,12 @@ export default function AppInitScreen() {
     <View
       style={[
         styles.container,
-        { backgroundColor: colorScheme === 'dark' ? '#000' : '#fff' },
+        { backgroundColor: backgroundColor },
       ]}
     >
       <Image
         source={require('@/assets/images/whiteIcon.png')}
-        style={styles.logo}
+        style={[styles.logo, { tintColor: imageColor}]}
         resizeMode="contain"
       />
     </View>

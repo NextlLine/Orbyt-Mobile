@@ -29,14 +29,16 @@ export default function Settings() {
         <TouchableOpacity
           onPress={signOut}
           style={{
-            backgroundColor: 'red',
+            backgroundColor: backgroundItem,
             padding: 14,
             borderRadius: 8,
+            borderWidth: 1,
+            borderColor: borderColorItem,
             alignItems: 'center',
             marginTop: 20
           }}
         >
-          <Text style={{ color: '#fff', fontWeight: '700' }}>Sair da conta</Text>
+          <Text style={{ color: textColor, fontWeight: '700',  }}>Sign out</Text>
         </TouchableOpacity>
       </View>
     </ParallaxScrollView>

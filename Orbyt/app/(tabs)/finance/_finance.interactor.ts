@@ -1,0 +1,49 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FinanceEntity } from "./_finance.entity";
+import { FinancePresenter } from "./_finance.presenter";
+import env from "@/config/env";
+import { FinanceWallet } from "@/model/models";
+
+export class FinanceInteractor {
+  presenter: FinancePresenter = new FinancePresenter();
+  entity: FinanceEntity = new FinanceEntity();
+
+  async fetchFinanceWallets() {
+    try {
+      this.entity.loading = true;
+
+      const token = await AsyncStorage.getItem("acces_taken");
+      if (!token) throw new Error("Usuário não logado");
+
+      const response = await fetch(`${env.BASE_URL}/finance`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const json = await response.json();
+      if (!response.ok) throw new Error(json.message || "Erro ao buscar wallets");
+
+      const formattedWallets: FinanceWallet[] = json.data.map((w: any) => ({
+        id: w.id,
+        name: w.name,
+        balance: w.balance,
+        currency: {
+          id: w.currency.id,
+          symbol: w.currency.symbol,
+          code: w.currency.code,
+        },
+        transactions: w.transactions ?? [],
+        monthReport: w.monthReports ?? [],
+      }));
+
+      this.entity.financeWallets = formattedWallets;
+    } catch (err: unknown) {
+      if (err instanceof Error)
+        console.error("Erro ao carregar wallets:", err.message);
+    } finally {
+      this.entity.loading = false;
+    }
+  };
+}

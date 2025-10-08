@@ -1,85 +1,43 @@
 import { StyleSheet, Text } from "react-native";
 import ParallaxScrollView from "@/components/util/parallax-scroll-view";
 import { ThemedView } from "@/components/util/themed-view";
-import React, { useState, useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import { useOrbytColor } from "@/hooks/defaultColors";
 import CustomBarGraph from "@/components/util/barGraph";
 import WalletsInfo from "@/components/news/wallet_info";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect } from "@react-navigation/native"; 
-import { FinanceWallet } from "@/model/models";
-import env from "@/config/env";
+import { useFocusEffect } from "@react-navigation/native";
+import { FinanceInteractor } from "./_finance.interactor";
+import { observer } from "mobx-react-lite";
 
-export default function Finance() {
-  const [index, setIndex] = useState(0);
-  const [financeWallets, setFinanceWallets] = useState<FinanceWallet[]>([]);
-  const [loading, setLoading] = useState(true);
+export default observer(function Finance() {
+  const interactor = useRef(new FinanceInteractor()).current;
 
   const borderColorItem = useOrbytColor("borderItem");
   const backgroundItem = useOrbytColor("backgroundItem");
 
   useFocusEffect(
     useCallback(() => {
-      const fetchFinanceWallets = async () => {
-        try {
-          setLoading(true);
-
-          const token = await AsyncStorage.getItem("acces_taken");
-          if (!token) throw new Error("Usuário não logado");
-
-          const response = await fetch(`${env.BASE_URL}/finance`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          });
-
-          const json = await response.json();
-          if (!response.ok) throw new Error(json.message || "Erro ao buscar wallets");
-
-          const formattedWallets: FinanceWallet[] = json.data.map((w: any) => ({
-            id: w.id,
-            name: w.name,
-            balance: w.balance,
-            currency: {
-              id: w.currency.id,
-              symbol: w.currency.symbol,
-              code: w.currency.code,
-            },
-            transactions: w.transactions ?? [],
-            monthReport: w.monthReports ?? [], 
-          }));
-
-          setFinanceWallets(formattedWallets);
-        } catch (err: unknown) {
-          if (err instanceof Error)
-            console.error("Erro ao carregar wallets:", err.message);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchFinanceWallets();
-    }, [])
+      interactor.fetchFinanceWallets();
+    }, [interactor])
   );
 
-  if (loading) {
+  if (interactor.entity.loading) {
     return (
       <ThemedView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Carregando carteiras...</Text>
+        <Text>Loading Wallets...</Text>
       </ThemedView>
     );
   }
 
-  if (financeWallets.length === 0) {
+  if (interactor.entity.financeWallets.length === 0) {
     return (
       <ThemedView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Nenhuma carteira encontrada</Text>
+        <Text>No Wallet was found</Text>
       </ThemedView>
     );
   }
 
-  const currentWallet = financeWallets[index];
+  const currentWallet = interactor.entity.financeWallets[interactor.entity.index];
 
   return (
     <ParallaxScrollView>
@@ -90,13 +48,13 @@ export default function Finance() {
         ]}
       >
         <WalletsInfo
-          wallets={financeWallets}
-          index={index}
-          onChangeWallet={(i) => setIndex(i)}
+          wallets={interactor.entity.financeWallets}
+          index={interactor.entity.index}
+          onChangeWallet={(i) => (interactor.entity.index = i)}
         />
       </ThemedView>
 
-      {currentWallet && currentWallet.monthReport && (
+      {currentWallet?.monthReport && (
         <ThemedView
           style={[
             styles.container,
@@ -108,7 +66,7 @@ export default function Finance() {
       )}
     </ParallaxScrollView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

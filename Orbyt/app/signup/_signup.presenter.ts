@@ -6,6 +6,6 @@ export class SignUpPresenter {
   }
 
   success() {
-    Alert.alert('Sucesso', 'Conta criada com sucesso!');
+    Alert.alert('Success', 'Your account was created!');
   }
 }
