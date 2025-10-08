@@ -31,10 +31,11 @@ export type FinanceWallet = {
   id: string;
   name: string;
   balance: number;
-  currency: Currency;
-  transactions: Transaction[];
-  monthReport: MonthReport[];
+  currency?: Currency;
+  transactions?: Transaction[];
+  monthReport?: MonthReport[];
 };
+
 
 
 

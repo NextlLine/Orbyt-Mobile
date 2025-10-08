@@ -31,7 +31,6 @@ export default function ParallaxScrollView({
           backgroundColor: backgroundColor,
         }
       ]}>
-       
         {children}
       
       </ThemedView>
