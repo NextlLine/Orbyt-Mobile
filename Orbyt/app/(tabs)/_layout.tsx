@@ -16,28 +16,28 @@ export default function TabLayout() {
         tabBarButton: HapticTab,
       }}>
       <Tabs.Screen
-        name="index"
+        name="news/index"
         options={{
           title: 'News',
           tabBarIcon: ({ color }) => <Icon name="cloud" size={20} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="finance"
+        name="finance/index"
         options={{
           title: 'Fincance',
           tabBarIcon: ({ color }) => <Icon name="bar-chart" size={20} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="investment"
+        name="investment/index"
         options={{
           title: 'Investment',
           tabBarIcon: ({ color }) => <Icon name="trending-up" size={20} color={color} />,
         }}
       />
        <Tabs.Screen
-        name="settings"
+        name="settings/index"
         options={{
           title: 'Settings',
           tabBarIcon: ({ color }) => <Icon name="settings" size={20} color={color} />
