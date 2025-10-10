@@ -33,14 +33,27 @@ export class SignInInteractor {
     }
   }
 
-  async loginWithStored(email: string) {
-    const password = await AsyncStorage.getItem(`pw_${email}`);
-    if (!password) return null;
+  async validateToken(token: string, email: string): Promise<boolean> {
+  if (!token || !email) return false;
 
-    this.entity.email = email;
-    this.entity.password = password;
-    return await this.onSubmit();
+  try {
+    const response = await fetch(`${env.BASE_URL}/auth/validate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, 
+      },
+      body: JSON.stringify({ email }),
+    });
+
+    console.log('validate response:', response.status);
+    return response.ok;
+  } catch (error) {
+    console.error('Token validation error:', error);
+    return false;
   }
+}
+
 
   validate(email: string, password: string) {
     if (!email.trim()) return 'Missing e-mail.';
