@@ -1,5 +1,5 @@
 import { FinanceWallet } from "@/model/models";
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 export class FinanceEntity {
     index: number = 0
@@ -8,5 +8,17 @@ export class FinanceEntity {
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    setIndex(newVal: number) {
+        newVal = runInAction(() => this.index = newVal);
+    }
+
+    setFinanceWallets(newVal: FinanceWallet[]) {
+        newVal = runInAction(() => this.financeWallets = newVal);
+    }
+
+    setLoading(newVal: boolean) {
+        newVal = runInAction(() => this.loading = newVal);
     }
 }

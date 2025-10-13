@@ -15,9 +15,7 @@ export default observer(function Finance() {
 
   const borderColorItem = useOrbytColor("borderItem");
   const backgroundItem = useOrbytColor("backgroundItem");
-    const background = useOrbytColor("background");
-
-  const textColor = useOrbytColor('text');
+  const background = useOrbytColor("background");
   const mainColor = useOrbytColor('main');
 
   useFocusEffect(
@@ -68,7 +66,7 @@ export default observer(function Finance() {
         <WalletsInfo
           wallets={interactor.entity.financeWallets}
           index={interactor.entity.index}
-          onChangeWallet={(i) => (interactor.entity.index = i)}
+          onChangeWallet={(i) => (interactor.entity.setIndex(i))}
         />
       </ThemedView>
 

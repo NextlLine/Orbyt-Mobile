@@ -10,7 +10,7 @@ export class SignInInteractor {
     const err = this.validate(this.entity.email, this.entity.password);
     if (err) return this.presenter.error(err);
 
-    this.entity.loading = true;
+    this.entity.setLoading(true);
     try {
       const response = await fetch(`${env.BASE_URL}/auth/signin`, {
         method: 'POST',
@@ -30,7 +30,7 @@ export class SignInInteractor {
       }
       else this.presenter.error('Unknown Error.');
     } finally {
-      this.entity.loading = false;
+      this.entity.setLoading(false);
     }
   }
 

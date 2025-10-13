@@ -36,9 +36,6 @@ export type FinanceWallet = {
   monthReport?: MonthReport[];
 };
 
-
-
-
 export enum InvestmentCategory {
   STOCK = "stock",
   FII = "fii",

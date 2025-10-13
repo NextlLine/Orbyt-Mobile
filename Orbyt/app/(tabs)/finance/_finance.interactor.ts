@@ -10,7 +10,7 @@ export class FinanceInteractor {
 
   async fetchFinanceWallets() {
     try {
-      this.entity.loading = true;
+      this.entity.setLoading(true);
 
       const token = await AsyncStorage.getItem("acces_taken");
       if (!token) throw new Error("Usuário não logado");
@@ -38,12 +38,12 @@ export class FinanceInteractor {
         monthReport: w.monthReports ?? [],
       }));
 
-      this.entity.financeWallets = formattedWallets;
+      this.entity.setFinanceWallets(formattedWallets);
     } catch (err: unknown) {
       if (err instanceof Error)
         console.error("Erro ao carregar wallets:", err.message);
     } finally {
-      this.entity.loading = false;
+      this.entity.setLoading(false)
     }
   };
 }

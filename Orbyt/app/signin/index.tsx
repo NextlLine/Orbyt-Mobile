@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { Platform, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SignInInteractor } from './_signin.interactor';
+import { runInAction } from 'mobx';
 
 const interactor = new SignInInteractor();
 
@@ -39,7 +40,7 @@ export default observer(function SignInScreen() {
 
       <TextInput
         value={interactor.entity.email}
-        onChangeText={text => interactor.entity.email = text}
+        onChangeText={text => interactor.entity.setEmail(text)}
         placeholder="E-mail"
         placeholderTextColor={secondary}
         style={{ backgroundColor: itemBg, borderColor, borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12, color: textColor }}
@@ -47,9 +48,12 @@ export default observer(function SignInScreen() {
 
       <TextInput
         value={interactor.entity.password}
-        onChangeText={text => interactor.entity.password = text}
+        onChangeText={text => interactor.entity.setPassword(text)}
         placeholder="Password"
         secureTextEntry
+        autoCapitalize="none"
+        autoCorrect={false}
+        textContentType="password"
         placeholderTextColor={secondary}
         style={{ backgroundColor: itemBg, borderColor, borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12, color: textColor }}
       />

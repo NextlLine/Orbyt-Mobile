@@ -29,7 +29,7 @@ export default observer(function SignUpScreen() {
 
       <TextInput
         value={interactor.entity.name}
-        onChangeText={text => interactor.entity.name = text}
+        onChangeText={text => interactor.entity.setName(text)}
         placeholder="Name"
         placeholderTextColor={secondary}
         style={{ backgroundColor: itemBg, borderColor, borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12, color: textColor }}
@@ -37,7 +37,7 @@ export default observer(function SignUpScreen() {
 
       <TextInput
         value={interactor.entity.doc}
-        onChangeText={text => interactor.entity.doc = text}
+        onChangeText={text => interactor.entity.setDoc(text)}
         placeholder="CPF"
         keyboardType="numeric"
         placeholderTextColor={secondary}
@@ -46,7 +46,7 @@ export default observer(function SignUpScreen() {
 
       <TextInput
         value={interactor.entity.email}
-        onChangeText={text => interactor.entity.email = text}
+        onChangeText={text => interactor.entity.setEmail(text)}
         placeholder="E-mail"
         placeholderTextColor={secondary}
         style={{ backgroundColor: itemBg, borderColor, borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12, color: textColor }}
@@ -54,18 +54,24 @@ export default observer(function SignUpScreen() {
 
       <TextInput
         value={interactor.entity.password}
-        onChangeText={text => interactor.entity.password = text}
+        onChangeText={text => interactor.entity.setPassword(text)}
         placeholder="Password"
         secureTextEntry
+        autoCapitalize="none"
+        autoCorrect={false}
+        textContentType="password"
         placeholderTextColor={secondary}
         style={{ backgroundColor: itemBg, borderColor, borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12, color: textColor }}
       />
 
       <TextInput
         value={interactor.entity.confirmPassword}
-        onChangeText={text => interactor.entity.confirmPassword = text}
+        onChangeText={text => interactor.entity.setConfirmPassword(text)}
         placeholder="Confirm password"
         secureTextEntry
+        autoCapitalize="none"
+        autoCorrect={false}
+        textContentType="password"
         placeholderTextColor={secondary}
         style={{ backgroundColor: itemBg, borderColor, borderWidth: 1, borderRadius: 8, padding: 12, marginBottom: 12, color: textColor }}
       />
