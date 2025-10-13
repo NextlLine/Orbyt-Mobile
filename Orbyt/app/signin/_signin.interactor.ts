@@ -1,13 +1,12 @@
 import env from "@/config/env";
-import { SignInPresenter } from "./_signin.presenter";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SignInEntity } from "./_signin.entity";
+import { SignInPresenter } from "./_signin.presenter";
 
 export class SignInInteractor {
   presenter = new SignInPresenter();
   entity = new SignInEntity();
 
-  async onSubmit() {
+  async signin() {
     const err = this.validate(this.entity.email, this.entity.password);
     if (err) return this.presenter.error(err);
 
@@ -23,10 +22,12 @@ export class SignInInteractor {
       if (!response.ok) throw new Error(data?.message || 'Error trying to signin.');
       if (!data.acces_taken) throw new Error('Token was not delivered by API.');
 
-      await AsyncStorage.setItem('acces_taken', data.acces_taken);
       return data.acces_taken;
     } catch (e: unknown) {
-      if (e instanceof Error) this.presenter.error(e.message);
+      if (e instanceof Error) {
+        console.log(e.message)
+        this.presenter.error(e.message)
+      }
       else this.presenter.error('Unknown Error.');
     } finally {
       this.entity.loading = false;
@@ -34,25 +35,25 @@ export class SignInInteractor {
   }
 
   async validateToken(token: string, email: string): Promise<boolean> {
-  if (!token || !email) return false;
+    if (!token || !email) return false;
 
-  try {
-    const response = await fetch(`${env.BASE_URL}/auth/validate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`, 
-      },
-      body: JSON.stringify({ email }),
-    });
+    try {
+      const response = await fetch(`${env.BASE_URL}/auth/validate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ email }),
+      });
 
-    console.log('validate response:', response.status);
-    return response.ok;
-  } catch (error) {
-    console.error('Token validation error:', error);
-    return false;
+      console.log('validate response:', response.status);
+      return response.ok;
+    } catch (error) {
+      console.error('Token validation error:', error);
+      return false;
+    }
   }
-}
 
 
   validate(email: string, password: string) {

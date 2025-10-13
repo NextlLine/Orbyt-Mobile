@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Switch, Platform } from 'react-native';
+import { useOrbytColor } from '@/hooks/defaultColors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { observer } from 'mobx-react-lite';
-import { useOrbytColor } from '@/hooks/defaultColors';
+import React, { useState } from 'react';
+import { Platform, Switch, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SignInInteractor } from './_signin.interactor';
 
 const interactor = new SignInInteractor();
@@ -19,11 +19,12 @@ export default observer(function SignInScreen() {
   const borderColor = useOrbytColor('borderItem');
   const secondary = useOrbytColor('secondary');
 
-  const onSubmit = async () => {
-    const token = await interactor.onSubmit();
+  const signin = async () => {
+    const token = await interactor.signin();
     if (token) {
       if (remindMe) {
         await AsyncStorage.setItem('remind_me', interactor.entity.email);
+        await AsyncStorage.setItem('acces_taken', token);
       } else {
         await AsyncStorage.removeItem('remind_me');
       }
@@ -59,7 +60,7 @@ export default observer(function SignInScreen() {
       </View>
 
       <TouchableOpacity
-        onPress={onSubmit}
+        onPress={signin}
         style={{ backgroundColor: mainColor, borderRadius: 8, padding: 14, alignItems: 'center', opacity: interactor.entity.loading ? 0.7 : 1 }}
       >
         <Text style={{ color: '#fff', fontWeight: '600' }}>
