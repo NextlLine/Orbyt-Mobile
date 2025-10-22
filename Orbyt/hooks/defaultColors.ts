@@ -13,10 +13,12 @@ export class CustomColors {
 }
 
 export const orbytColors = [
+    new CustomColors("navBar", "rgba(255, 255, 255, 1)", "rgba(4,63,255,1)"),
     new CustomColors("main", "rgba(0, 17, 73, 1)", "rgba(4,63,255,1)"),
     new CustomColors("background", "rgba(28, 29, 32, 1)", "rgba(239, 239, 239, 1)"),
     new CustomColors("backgroundItem", "rgba(39, 39, 44, 1)", "rgba(255, 255, 255, 1)"),
     new CustomColors("text", "rgba(255, 255, 255, 1)", "rgba(0, 0, 0, 1)"),
+    new CustomColors("textInvert", "rgba(0, 0, 0, 1)", "rgba(255, 255, 255, 1)"),
     new CustomColors("gain", "rgba(0, 168, 3, 1)", "rgba(1, 92, 2, 1)"),
     new CustomColors("loose", "rgba(225, 0, 0, 1)", "rgba(133, 0, 0, 1)"),
     new CustomColors("gainGraph", "rgba(51, 90, 51, 1)", "rgba(118, 228, 120, 1)"),

@@ -10,7 +10,7 @@ import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function TabLayout() {
-  const color = useOrbytColor('main');
+  const color = useOrbytColor('navBar');
 
   if (Platform.OS === 'ios') {
     const renderIcon = (iosDefault: string, iosSelected: string) => {
@@ -18,7 +18,7 @@ export default function TabLayout() {
     };
 
     return (
-      <NativeTabs iconColor={color} >
+      <NativeTabs tintColor={color} >
         <NativeTabs.Trigger name="news/index">
           {renderIcon('house', 'house.fill')}
           <Label>News</Label>

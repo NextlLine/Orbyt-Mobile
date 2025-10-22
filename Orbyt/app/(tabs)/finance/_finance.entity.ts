@@ -5,20 +5,30 @@ export class FinanceEntity {
     index: number = 0
     financeWallets: FinanceWallet[] = []
     loading: boolean = true
+    showWalletsModal: boolean = false
+    showCreateWalletModal: boolean = false
 
     constructor() {
         makeAutoObservable(this);
     }
 
+    setShowWalletsModal(newVal: boolean) {
+        this.showWalletsModal = newVal;
+    }
+
+    setShowCreateWalletModal(newVal: boolean) {
+        this.showCreateWalletModal = newVal;
+    }
+
     setIndex(newVal: number) {
-        newVal = runInAction(() => this.index = newVal);
+        this.index = newVal;
     }
 
     setFinanceWallets(newVal: FinanceWallet[]) {
-        newVal = runInAction(() => this.financeWallets = newVal);
+        this.financeWallets = newVal;
     }
 
     setLoading(newVal: boolean) {
-        newVal = runInAction(() => this.loading = newVal);
+        this.loading = newVal;
     }
 }
