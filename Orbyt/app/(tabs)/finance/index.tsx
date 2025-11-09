@@ -10,14 +10,17 @@ import { ThemedText } from "@/components/util/themed-text";
 import CreateWalletModal from "@/components/finance/create_financeWallet_modal";
 import { CustomSelect } from "@/components/util/select_picker_component";
 import Icon from 'react-native-vector-icons/Feather';
+import CreateTransactionModal from "@/components/finance/create_transaction";
 
 export default observer(function Finance() {
   const interactor = useRef(new FinanceInteractor()).current;
 
   const borderColorItem = useOrbytColor("borderItem");
   const backgroundItem = useOrbytColor("backgroundItem");
-  const background = useOrbytColor("background");
   const mainColor = useOrbytColor("main");
+  const redColor = useOrbytColor("loose2")
+  const greenColor = useOrbytColor("gain2")
+  const textColor = useOrbytColor("text")
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -35,6 +38,25 @@ export default observer(function Finance() {
   const handleToggleShowWalletModal = () => interactor.entity.setShowWalletsModal(!interactor.entity.showWalletsModal);
   const handleCreateWallet = async (name: string, balance: number) => await interactor.createWallet(name, balance);
   const handleCreateWalletModal = () => interactor.openCreateWalletModal();
+
+  const [showTransactionModal, setShowTransactionModal] = useState(false);
+  const [transactionType, setTransactionType] = useState<"incoming" | "outgoing">("incoming");
+
+  const handleCreateTransaction = (desc: string, amount: number) => {
+    interactor.addTransaction(desc, amount, transactionType);
+    setShowTransactionModal(false);
+  }
+
+  const handleIncoming = () => {
+    setTransactionType("incoming");
+    setShowTransactionModal(true);
+  };
+
+  const handleOutgoing = () => {
+    setTransactionType("outgoing");
+    setShowTransactionModal(true);
+  };
+
 
   const currentWallet = interactor.entity.financeWallets[interactor.entity.index];
 
@@ -70,17 +92,45 @@ export default observer(function Finance() {
               </ThemedText>
               <Icon name="chevron-down" size={20} color={useOrbytColor('text')} />
             </ThemedView>
+
+            {currentWallet && (
+              <ThemedView style={styles.subsubcontainer}>
+                <ThemedText type="default">
+                  {currentWallet.currency?.symbol} {currentWallet.balance.toFixed(2)}
+                </ThemedText>
+              </ThemedView>
+            )}
           </CustomSelect>
+        </ThemedView>
 
-
+        <ThemedView
+          style={[
+            styles.container,
+            { borderColor: borderColorItem, backgroundColor: backgroundItem },
+          ]}
+        >
           {currentWallet && (
-            <ThemedView style={styles.subsubcontainer}>
-              <ThemedText type="default">
-                {currentWallet.currency?.symbol} {currentWallet.balance.toFixed(2)}
-              </ThemedText>
-            </ThemedView>
+            <>
+              <ThemedView style={styles.rowButtons}>
+                <TouchableOpacity
+                  style={[styles.actionButton, { backgroundColor: greenColor }]}
+                  onPress={handleIncoming}
+                >
+                  <Text style={[styles.actionText, { color: textColor }]}>Incoming</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.actionButton, { backgroundColor: redColor }]}
+                  onPress={handleOutgoing}
+                >
+                  <Text style={[styles.actionText, { color: textColor }]}>Outgoing</Text>
+                </TouchableOpacity>
+              </ThemedView>
+            </>
           )}
         </ThemedView>
+
+
 
         {currentWallet?.monthReport != undefined && currentWallet?.monthReport?.length > 0 && (
           <ThemedView
@@ -98,6 +148,13 @@ export default observer(function Finance() {
         visible={interactor.entity.showCreateWalletModal}
         onCancel={() => interactor.entity.setShowCreateWalletModal(false)}
         onConfirm={handleCreateWallet}
+      />
+
+      <CreateTransactionModal
+        visible={showTransactionModal}
+        type={transactionType}
+        onCancel={() => setShowTransactionModal(false)}
+        onConfirm={handleCreateTransaction}
       />
     </>
   );
@@ -126,4 +183,24 @@ const styles = StyleSheet.create({
     marginTop: 8,
     backgroundColor: 'transparent'
   },
+  rowButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 10,
+    backgroundColor: "transparent"
+  },
+
+  actionButton: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+
+  actionText: {
+    fontWeight: "600",
+    fontSize: 16,
+  },
+
 });

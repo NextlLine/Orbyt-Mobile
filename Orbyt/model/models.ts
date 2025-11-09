@@ -6,9 +6,9 @@ export type Currency = {
 
 
 export enum TransactionType {
-  FOOD = "food",
-  HEALTH = "health",
-  OTHER = "other"
+  FOOD = "FOOD",
+  HEALTH = "HEALTH",
+  OTHER = "OTHER"
 }
 
 export type Transaction = {
@@ -37,11 +37,11 @@ export type FinanceWallet = {
 };
 
 export enum InvestmentCategory {
-  STOCK = "stock",
-  FII = "fii",
-  ETF = "etf",
-  CRYPTO = "crypto",
-  FIXED_INCOME = "fixed_income"
+  STOCK = "STOCK",
+  FII = "FII",
+  ETF = "ETF",
+  CRYPTO = "CRYPTO",
+  FIXED_INCOME = "FIXED_INCOME"
 }
 
 export type Investment = {
@@ -58,8 +58,6 @@ export type InvestmentWallet = {
   currency: Currency;
   investments: Investment[];
 };
-
-
 
 export type UserPreferences = {
   defaultCurrency: string;
